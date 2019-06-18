@@ -1,6 +1,7 @@
 package popo.atlas.framework.base;
 
 import com.codeborne.selenide.testng.BrowserPerTest;
+import com.codeborne.selenide.testng.GlobalTextReport;
 import com.codeborne.selenide.testng.ScreenShooter;
 import io.qameta.atlas.core.Atlas;
 import io.qameta.atlas.webdriver.WebDriverConfiguration;
@@ -10,7 +11,7 @@ import org.testng.annotations.*;
 import popo.atlas.framework.base.driver.Browser;
 
 @Log4j2
-@Listeners({BrowserPerTest.class, ScreenShooter.class})
+@Listeners({BrowserPerTest.class, ScreenShooter.class, GlobalTextReport.class})
 public class BaseEntity {
 
     Atlas atlas;
