@@ -6,6 +6,6 @@ import io.qameta.atlas.webdriver.extension.FindBy;
 public interface RepositoryCard extends AtlasWebElement<RepositoryCard> {
 
     @FindBy(".//h3")
-    AtlasWebElement<RepositoryCard> title();
+    AtlasWebElement title();
 
 }

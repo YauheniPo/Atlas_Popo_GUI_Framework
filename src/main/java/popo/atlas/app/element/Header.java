@@ -6,6 +6,6 @@ import io.qameta.atlas.webdriver.extension.FindBy;
 public interface Header extends AtlasWebElement<Header> {
 
     @FindBy(".//input[contains(@class,'header-search-input')]")
-    AtlasWebElement<Header> searchInput();
+    AtlasWebElement searchInput();
 
 }
