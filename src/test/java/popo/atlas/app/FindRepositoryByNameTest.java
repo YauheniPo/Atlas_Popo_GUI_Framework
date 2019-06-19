@@ -18,7 +18,7 @@ public class FindRepositoryByNameTest extends BaseTest {
 
         MainPage mainPage = onPage(MainPage.class);
         Header header = mainPage.header().waitUntil(displayed());
-        header.searchInput().waitUntil(displayed(), 100);
+        header.searchInput().waitUntil(displayed(), 400);
         header.searchInput().sendKeys(repoTitleText);
         mainPage.header().searchInput().submit();
         SearchPage searchPage = onPage(SearchPage.class);
