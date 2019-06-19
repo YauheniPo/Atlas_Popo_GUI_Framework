@@ -22,6 +22,7 @@ public final class DriverManager {
             case IE:
                 browserName = Browsers.INTERNET_EXPLORER;
                 break;
+            case DEFAULT:
             default:
                 browserName = Browsers.CHROME;
                 log.info(String.format("Init '%s' default browser", browserName));

@@ -66,7 +66,8 @@ public final class Browser {
         FIREFOX("firefox"),
         CHROME("chrome"),
         EDGE("edge"),
-        IE("ie");
+        IE("ie"),
+        DEFAULT("default");
 
         @Getter
         private final String value;
