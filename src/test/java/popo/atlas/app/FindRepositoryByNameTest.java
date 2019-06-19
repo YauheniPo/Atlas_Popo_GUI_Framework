@@ -17,13 +17,14 @@ public class FindRepositoryByNameTest extends BaseTest {
         final String repoTitleText = "Atlas";
 
         MainPage mainPage = onPage(MainPage.class);
-        Header header = mainPage.header().waitUntil(displayed());
-        header.searchInput().waitUntil(displayed(), 400);
+        Header header = mainPage.header().waitUntil(displayed(), 400);
+        header.searchInput().waitUntil("Timeout exception for displayed condition", displayed(), 400);
         header.searchInput().sendKeys(repoTitleText);
         mainPage.header().searchInput().submit();
         SearchPage searchPage = onPage(SearchPage.class);
 
         searchPage.repositories().waitUntil(hasSize(10))
-                .should(everyItem(text(anyOf(containsString(repoTitleText), containsString(repoTitleText.toLowerCase())))));
+                .should(String.format("Every repository does not contains '%s'", repoTitleText),
+                        everyItem(text(anyOf(containsString(repoTitleText), containsString(repoTitleText.toLowerCase())))));
     }
 }
