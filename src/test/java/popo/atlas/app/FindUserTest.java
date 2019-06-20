@@ -15,7 +15,7 @@ public class FindUserTest extends CommonStep {
 
         search(username);
         SearchPage searchPage = onPage(SearchPage.class);
-        searchPage.menu().clickSearchMenu("Users").click();
+        searchPage.menu().item("Users").click();
         searchPage.usersWithWait(1).get(0).username()
                 .should(String.format("Every repository does not contains '%s'", username), is(text(username)));
     }

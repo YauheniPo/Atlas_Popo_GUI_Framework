@@ -1,7 +1,6 @@
 package popo.atlas.app.page;
 
 import io.qameta.atlas.core.api.Retry;
-import org.openqa.selenium.WebElement;
 import popo.atlas.app.element.RepositoryCard;
 import popo.atlas.app.element.SearchingMenu;
 import popo.atlas.app.element.UserCard;
@@ -13,7 +12,7 @@ import ru.yandex.qatools.allure.annotations.Description;
 
 import static org.hamcrest.Matchers.*;
 
-public interface SearchPage extends WebPage, WithHeader, WebElement {
+public interface SearchPage extends WebPage, WithHeader {
 
     @Description("Repositories")
     @FindBy(".//ul[contains(@class, 'repo-list')]//*[contains(@class, 'repo-list-item')]")
