@@ -123,6 +123,7 @@
                 <configuration>
                     <systemPropertyVariables>
                         <chromeoptions.args>--disable-infobars,--incognito</chromeoptions.args>
+                        <!--<allure.results.directory>${basedir}/allure-results</allure.results.directory>-->
                     </systemPropertyVariables>
                     <suiteXmlFiles>
                         <suiteXmlFile>${project.basedir}/src/main/resources/${suiteFile}</suiteXmlFile>
@@ -165,6 +166,8 @@
                 <version>2.8</version>
                 <configuration>
                     <reportVersion>2.3.1</reportVersion>
+                    <resultsDirectory>${basedir}/allure-results</resultsDirectory>
+                    <reportDirectory>${basedir}/allure-reports</reportDirectory>
                 </configuration>
             </plugin>
         </plugins>
