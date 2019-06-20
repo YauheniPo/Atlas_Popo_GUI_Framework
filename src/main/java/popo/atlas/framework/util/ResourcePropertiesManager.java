@@ -23,11 +23,16 @@ public final class ResourcePropertiesManager {
     }
 
     public String getStringProperty(@NonNull final String key, @NonNull final String defaultValue) {
-        return this.properties.getProperty(key, defaultValue);
+        String property = this.properties.getProperty(key, defaultValue);
+        return property.isEmpty() ? defaultValue : property;
     }
 
     public long getLongProperties(@NonNull final String key) {
         return Long.parseLong(this.properties.getProperty(key));
+    }
+
+    public int getIntProperties(@NonNull final String key) {
+        return Integer.parseInt(this.properties.getProperty(key));
     }
 
     public boolean getBooleanProperties(@NonNull final String key) {

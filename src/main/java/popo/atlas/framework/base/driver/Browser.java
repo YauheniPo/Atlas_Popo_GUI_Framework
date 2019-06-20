@@ -29,7 +29,9 @@ public final class Browser {
             ? rpBrowser.getStringProperty("browser") : ResourcePropertiesManager.getSystemEnvProperty("browser"))
             .toUpperCase(Locale.ENGLISH));
     private static final boolean IS_BROWSER_HEADLESS = rpBrowser.getBooleanProperties("browser.headless");
-    private static final long IMPLICITLY_WAIT = rpBrowser.getLongProperties("browser.timeout");
+    private static final long IMPLICITLY_WAIT = rpBrowser.getLongProperties("browser.implicitlyWait");
+    private static final String PAGE_LOAD_STRATEGY = rpBrowser.getStringProperty("browser.pageLoadStrategy", "normal");
+    public static final int TIMEOUT = rpBrowser.getIntProperties("browser.timeout");
     private static volatile Browser instance = null;
 
     public static void getInstance() {
@@ -46,6 +48,7 @@ public final class Browser {
     }
 
     private static void initDriverConfigs() {
+        Configuration.pageLoadStrategy = PAGE_LOAD_STRATEGY;
         Configuration.timeout = IMPLICITLY_WAIT;
         Configuration.headless = IS_BROWSER_HEADLESS;
         Configuration.baseUrl = BROWSER_URL;
