@@ -15,6 +15,7 @@ import static org.hamcrest.Matchers.*;
 public interface SearchPage extends WebPage, WithHeader {
 
     @Description("Repositories")
+    @Retry
     @FindBy(".//ul[contains(@class, 'repo-list')]//*[contains(@class, 'repo-list-item')]")
     ElementsCollection<RepositoryCard> repositories();
 

@@ -6,7 +6,7 @@ import io.qameta.atlas.webdriver.extension.FindBy;
 import io.qameta.atlas.webdriver.extension.Param;
 import ru.yandex.qatools.allure.annotations.Description;
 
-public interface SearchingMenu extends AtlasWebElement {
+public interface SearchingMenu extends AtlasWebElement<SearchingMenu> {
 
     @Description("Searching Item '{{ name }}'")
     @Retry
