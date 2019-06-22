@@ -8,7 +8,7 @@ import ru.yandex.qatools.allure.annotations.Description;
 public interface Header extends AtlasWebElement<Header> {
 
     @Description("Search Input")
-    @Retry
+    @Retry(timeout = 10000L)
     @FindBy(".//input[contains(@class,'header-search-input')]")
     AtlasWebElement searchInput();
 

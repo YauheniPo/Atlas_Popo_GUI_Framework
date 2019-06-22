@@ -5,13 +5,15 @@ import popo.atlas.app.page.MainPage;
 import popo.atlas.framework.base.BaseTest;
 import ru.yandex.qatools.allure.annotations.Step;
 
+import static ru.yandex.qatools.matchers.webdriver.DisplayedMatcher.displayed;
+
 public class CommonStep extends BaseTest {
 
     @Step("Searching repositories")
     protected void search(String repoTitleText) {
         MainPage mainPage = onPage(MainPage.class);
         Header header = mainPage.header();
-        header.searchInput().sendKeys(repoTitleText);
+        header.searchInput().waitUntil(displayed()).sendKeys(repoTitleText);
         mainPage.header().searchInput().submit();
     }
 }

@@ -9,7 +9,7 @@ public interface WithHeader {
 
     @Description("Header")
     @Retry
-    @FindBy("//header[contains(@class, 'Header')]")
+    @FindBy(".//header[contains(@class, 'Header')]")
     Header header();
 
 }
