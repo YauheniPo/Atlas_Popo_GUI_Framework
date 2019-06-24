@@ -1,6 +1,8 @@
 package popo.atlas.app;
 
 import org.testng.annotations.Test;
+import popo.atlas.app.element.SearchingMenu;
+import popo.atlas.app.page.MainPage;
 import popo.atlas.app.page.SearchPage;
 import popo.atlas.app.step.CommonStep;
 
@@ -13,9 +15,9 @@ public class FindUserTest extends CommonStep {
     public void testFindUserByName() {
         final String username = "YauheniPo";
 
-        search(username);
-        SearchPage searchPage = onPage(SearchPage.class);
-        searchPage.menu().item("Users").click();
+        SearchPage searchPage = search(MainPage.class, username);
+
+        searchPage.menu().item(SearchingMenu.USERS_ITEM).click();
         searchPage.usersWithWait(1).get(0).username()
                 .should(String.format("Every repository does not contains '%s'", username), is(text(username)));
     }

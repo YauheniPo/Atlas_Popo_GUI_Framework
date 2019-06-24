@@ -7,6 +7,8 @@ import ru.yandex.qatools.allure.annotations.Description;
 
 public interface SearchingMenu extends AtlasWebElement<SearchingMenu> {
 
+    String USERS_ITEM = "Users";
+
     @Description("Searching Item '{{ name }}'")
     @FindBy(".//a[contains(@class, '-item') and not(contains(@class, 'UnderlineNav'))][contains(text(), '{{ name }}')]")
     AtlasWebElement item(@Param("name") String name);

@@ -1,6 +1,7 @@
 package popo.atlas.app;
 
 import org.testng.annotations.Test;
+import popo.atlas.app.page.MainPage;
 import popo.atlas.app.page.SearchPage;
 import popo.atlas.app.step.CommonStep;
 
@@ -13,8 +14,8 @@ public class FindRepositoryTest extends CommonStep {
     public void testFindRepositoryByName() {
         final String repoTitleText = "YauheniPo";
 
-        search(repoTitleText);
-        SearchPage searchPage = onPage(SearchPage.class);
+        SearchPage searchPage = search(MainPage.class, repoTitleText);
+
         searchPage.repositoriesWithWait(1)
                 .should(String.format("Every repository does not contains '%s'", repoTitleText),
                         everyItem(text(anyOf(containsString(repoTitleText), containsString(repoTitleText.toLowerCase())))));
