@@ -13,7 +13,7 @@ public class CommonStep extends BaseTest {
     protected <T extends WebPage & WithHeader> SearchPage search(Class<T> page, String repoTitleText) {
         WebPage webPage = onPage(page);
         Header header = ((WithHeader)webPage).header();
-        header.searchInput().sendKeys(repoTitleText);
+        header.searchInputWithWait().sendKeys(repoTitleText);
         header.searchInput().submit();
         return onPage(SearchPage.class);
     }
