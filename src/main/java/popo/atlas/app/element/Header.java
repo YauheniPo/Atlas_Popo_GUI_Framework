@@ -9,7 +9,7 @@ public interface Header extends AtlasWebElement<Header> {
 
     @Description("Search Input")
     @Retry(timeout = 10000L)
-    @FindBy(".//input[contains(@class,'header-search-input')]")
+    @FindBy(".//input[contains(@class, 'header-search-input')]")
     AtlasWebElement searchInput();
 
 }
