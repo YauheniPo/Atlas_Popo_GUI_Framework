@@ -1,15 +1,12 @@
 package popo.atlas.app.element;
 
-import io.qameta.atlas.core.api.Retry;
 import io.qameta.atlas.webdriver.AtlasWebElement;
-import io.qameta.atlas.webdriver.extension.FindBy;
+import popo.atlas.framework.atlas.extention.ContainsClass;
 import ru.yandex.qatools.allure.annotations.Description;
 
 public interface Header extends AtlasWebElement<Header> {
 
     @Description("Search Input")
-    @Retry(timeout = 10000L)
-    @FindBy(".//input[contains(@class, 'header-search-input')]")
-    AtlasWebElement searchInput();
-
+    @ContainsClass(tag = "input", classValue = "header-search-input")
+    AtlasWebElement<Header> searchInput();
 }
