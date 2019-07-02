@@ -21,8 +21,8 @@ public class BaseEntity {
     public void beforeTest() {
         Browser.getInstance();
         Browser.openStartPage();
-        atlas = new Atlas(new WebDriverConfiguration(getWebDriver())).extension(new ContainsClassExtension());
-
+        atlas = new Atlas(new WebDriverConfiguration(getWebDriver()))
+                .extension(new ContainsClassExtension());
     }
 
     protected static RemoteWebDriver getWebDriver() {

@@ -1,12 +1,13 @@
 package popo.atlas.framework.base;
 
-import io.qameta.atlas.webdriver.WebPage;
 import lombok.extern.log4j.Log4j2;
+import org.openqa.selenium.SearchContext;
+import org.openqa.selenium.WrapsDriver;
 
 @Log4j2
 public class BaseTest extends BaseEntity {
 
-    protected <T extends WebPage> T onPage(Class<T> page) {
+    protected <T extends WrapsDriver & SearchContext> T onPage(Class<T> page) {
         log.info(String.format("Go to %s page", page.getName()));
         return super.atlas.create(getWebDriver(), page);
     }

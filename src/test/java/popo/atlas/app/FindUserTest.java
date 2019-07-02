@@ -21,4 +21,13 @@ public class FindUserTest extends CommonStep {
         searchPage.usersWithWait(1).get(0).username()
                 .should(String.format("Every repository does not contains '%s'", username), is(text(username)));
     }
+
+    @Test(groups = {TestGroup.GIT_GROUP})
+    public void testFindUserByNameUrlParams() {
+        final String username = "YauheniPo";
+
+        GitHubSite gitHubSite = onPage(GitHubSite.class);
+        gitHubSite.onSearchPage(username, SearchingMenu.USERS_ITEM).usersWithWait(1).get(0).username()
+                .should(String.format("Every repository does not contains '%s'", username), is(text(username)));
+    }
 }
