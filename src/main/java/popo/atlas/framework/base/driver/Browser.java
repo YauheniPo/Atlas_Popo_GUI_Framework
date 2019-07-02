@@ -52,6 +52,7 @@ public final class Browser {
         Configuration.timeout = IMPLICITLY_WAIT;
         Configuration.headless = IS_BROWSER_HEADLESS;
         Configuration.baseUrl = BROWSER_URL;
+        System.getProperties().setProperty("ATLAS_WEBSITE_URL", BROWSER_URL);
         Configuration.startMaximized = true;
         DriverManager.setUp(currentBrowser);
     }
@@ -61,7 +62,7 @@ public final class Browser {
     }
 
     public static RemoteWebDriver getDriver() {
-        return (RemoteWebDriver) WebDriverRunner.getWebDriver();
+        return (RemoteWebDriver) WebDriverRunner.getAndCheckWebDriver();
     }
 
     @AllArgsConstructor()
