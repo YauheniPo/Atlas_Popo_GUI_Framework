@@ -7,6 +7,7 @@ import popo.atlas.app.layout.WithHeader;
 import io.qameta.atlas.webdriver.ElementsCollection;
 import io.qameta.atlas.webdriver.WebPage;
 import io.qameta.atlas.webdriver.extension.FindBy;
+import popo.atlas.framework.base.driver.Browser;
 import ru.yandex.qatools.allure.annotations.Description;
 
 import static org.hamcrest.Matchers.*;
@@ -26,7 +27,7 @@ public interface SearchPage extends WebPage, WithHeader {
     ElementsCollection<UserCard> users();
 
     default ElementsCollection<UserCard> usersWithWait(int size) {
-        return users().waitUntil(hasSize(lessThanOrEqualTo(size)));
+        return users().waitUntil(hasSize(lessThanOrEqualTo(size)), Browser.TIMEOUT);
     }
 
     @Description("Searching Menu")

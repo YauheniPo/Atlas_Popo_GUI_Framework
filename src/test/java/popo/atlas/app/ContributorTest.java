@@ -1,12 +1,12 @@
 package popo.atlas.app;
 
 import org.testng.annotations.Test;
-import popo.atlas.app.step.CommonStep;
+import popo.atlas.framework.base.BaseTest;
 import popo.atlas.framework.base.driver.Browser;
 
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 
-public class ContributorTest extends CommonStep {
+public class ContributorTest extends BaseTest {
 
     @Test(groups = {TestGroup.GIT_GROUP})
     public void testContributor() {
