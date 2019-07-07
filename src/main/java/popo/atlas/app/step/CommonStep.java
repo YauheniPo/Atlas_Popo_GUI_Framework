@@ -16,7 +16,7 @@ public class CommonStep extends BaseTest {
         WebPage webPage = onPage(page);
         Header header = ((WithHeader)webPage).header();
         header
-                .searchInput().waitUntil(exists(), 100)
+                .searchInput().waitUntil(exists(), 200)
                 .click();
         header
                 .searchInput()
