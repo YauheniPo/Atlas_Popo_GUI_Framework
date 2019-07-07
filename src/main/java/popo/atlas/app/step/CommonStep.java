@@ -7,6 +7,8 @@ import popo.atlas.app.page.SearchPage;
 import popo.atlas.framework.base.BaseTest;
 import ru.yandex.qatools.allure.annotations.Step;
 
+import static ru.yandex.qatools.matchers.webdriver.ExistsMatcher.exists;
+
 public class CommonStep extends BaseTest {
 
     @Step("Searching GitHub content: {1}")
@@ -14,7 +16,7 @@ public class CommonStep extends BaseTest {
         WebPage webPage = onPage(page);
         Header header = ((WithHeader)webPage).header();
         header
-                .searchInput()
+                .searchInput().waitUntil(exists(), 100)
                 .click();
         header
                 .searchInput()

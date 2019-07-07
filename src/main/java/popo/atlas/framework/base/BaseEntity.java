@@ -7,13 +7,17 @@ import io.qameta.atlas.core.Atlas;
 import io.qameta.atlas.webdriver.WebDriverConfiguration;
 import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import org.testng.IHookCallBack;
+import org.testng.IHookable;
+import org.testng.ITestResult;
 import org.testng.annotations.*;
 import popo.atlas.framework.atlas.extention.ContainsClassExtension;
 import popo.atlas.framework.base.driver.Browser;
+import popo.atlas.framework.util.CustomListener;
 
 @Log4j2
-@Listeners({BrowserPerTest.class, ScreenShooter.class, GlobalTextReport.class})
-public class BaseEntity {
+@Listeners({BrowserPerTest.class, ScreenShooter.class, GlobalTextReport.class, CustomListener.class})
+public class BaseEntity implements IHookable {
 
     Atlas atlas;
 
@@ -27,5 +31,15 @@ public class BaseEntity {
 
     protected static RemoteWebDriver getWebDriver() {
         return Browser.getDriver();
+    }
+
+    @Override
+    public void run(IHookCallBack callBack, ITestResult testResult) {
+        try {
+            callBack.runTestMethod(testResult);
+        } catch (Throwable throwable) {
+            log.fatal(throwable);
+            throwable.printStackTrace();
+        }
     }
 }
