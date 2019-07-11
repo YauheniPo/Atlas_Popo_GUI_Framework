@@ -30,7 +30,7 @@ jobs:
     displayName: Publish Build Artifacts
     inputs:
       PathtoPublish: '$(System.DefaultWorkingDirectory)'
-      ArtifactName: 'drop'
+      ArtifactName: 'PublishBuildArtifacts'
 
   # Publish Test Results to Azure Pipelines/TFS
   - task: PublishTestResults@2
@@ -47,7 +47,7 @@ jobs:
   # Publish a local directory or file as a named artifact for the current pipeline
   - task: PublishPipelineArtifact@0
     inputs:
-      artifactName: 'drop'
+      artifactName: 'PublishPipelineArtifact'
       targetPath: '$(System.DefaultWorkingDirectory)'
 
   - script: ls
