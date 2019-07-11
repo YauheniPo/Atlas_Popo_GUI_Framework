@@ -14,6 +14,7 @@ jobs:
   steps:
   - script: ls
     displayName: ls command
+
   - task: Maven@3
     displayName: Maven Package
     inputs:
@@ -29,23 +30,26 @@ jobs:
     displayName: Publish Build Artifacts
     inputs:
       PathtoPublish: '$(System.DefaultWorkingDirectory)'
-      name: 'drop'
+      ArtifactName: 'drop'
 
-    # Publish Test Results to Azure Pipelines/TFS
+  # Publish Test Results to Azure Pipelines/TFS
   - task: PublishTestResults@2
     displayName: Publish Test Results
     inputs:
-      testResultsFormat: 'JUnit' # Options: JUnit, NUnit, VSTest, xUnit, cTest
+      testResultsFormat: 'JUnit'
       testResultsFiles: 'target/**/testng-results.xml'
       searchFolder: '$(System.DefaultWorkingDirectory)'
-      mergeTestResults: false # Optional
-      failTaskOnFailedTests: true # Optional
-      publishRunAttachments: true # Optional
+      mergeTestResults: false
+      failTaskOnFailedTests: true
+      publishRunAttachments: true
 
-  - task: DownloadPipelineArtifact@2
+  # Publish pipeline artifact
+  # Publish a local directory or file as a named artifact for the current pipeline
+  - task: PublishPipelineArtifact@0
     inputs:
-      artifact: PublishBuildArtifacts
-      targetPath: '$(Build.SourcesDirectory)\logs'
+      artifactName: 'drop'
+      targetPath: '$(System.DefaultWorkingDirectory)'
 
   - script: ls
     displayName: ls for $(vmImageVar) env
+    
