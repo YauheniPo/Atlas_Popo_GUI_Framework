@@ -1,4 +1,4 @@
-package popo.atlas.framework.util;
+package popo.atlas.framework.util.listener;
 
 import lombok.extern.log4j.Log4j2;
 import org.testng.ITestResult;
