@@ -21,6 +21,11 @@
 
     <dependencies>
         <dependency>
+            <groupId>com.automation-remarks</groupId>
+            <artifactId>video-recorder-testng</artifactId>
+            <version>LATEST</version>
+        </dependency>
+        <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
             <version>6.14.3</version>

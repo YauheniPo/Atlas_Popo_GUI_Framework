@@ -19,7 +19,7 @@ public interface SearchPage extends WebPage, WithHeader {
     ElementsCollection<RepositoryCard> repositories();
 
     default ElementsCollection<RepositoryCard> repositoriesWithWait(int size) {
-        return repositories().waitUntil(hasSize(lessThanOrEqualTo(size)));
+        return repositories().waitUntil(hasSize(size), Browser.TIMEOUT);
     }
 
     @Description("Repositories")
@@ -27,7 +27,7 @@ public interface SearchPage extends WebPage, WithHeader {
     ElementsCollection<UserCard> users();
 
     default ElementsCollection<UserCard> usersWithWait(int size) {
-        return users().waitUntil(hasSize(lessThanOrEqualTo(size)), Browser.TIMEOUT);
+        return users().waitUntil(hasSize(size), Browser.TIMEOUT);
     }
 
     @Description("Searching Menu")

@@ -1,5 +1,6 @@
 package popo.atlas.app;
 
+import com.automation.remarks.video.annotations.Video;
 import org.testng.annotations.Test;
 import popo.atlas.app.page.MainPage;
 import popo.atlas.app.page.SearchPage;
@@ -10,6 +11,7 @@ import static ru.yandex.qatools.matchers.webdriver.TextMatcher.text;
 
 public class FindRepositoryTest extends CommonStep {
 
+    @Video
     @Test(groups = {TestGroup.GIT_GROUP})
     public void testFindRepositoryByName() {
         final String repoTitleText = "YauheniPo";

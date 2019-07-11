@@ -9,6 +9,6 @@ public class CustomListener extends TestListenerAdapter {
 
     @Override
     public void onTestFailure(ITestResult tr) {
-        log.info(tr.getThrowable());
+        log.fatal(tr.getThrowable().getStackTrace(), tr.getThrowable());
     }
 }
