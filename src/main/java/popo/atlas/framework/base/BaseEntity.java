@@ -13,12 +13,15 @@ import org.testng.ITestResult;
 import org.testng.annotations.*;
 import popo.atlas.framework.atlas.extention.ContainsClassExtension;
 import popo.atlas.framework.base.driver.Browser;
-import popo.atlas.framework.util.CustomListener;
+import popo.atlas.framework.util.ResourcePropertiesManager;
+import popo.atlas.framework.util.listener.CustomListener;
+import popo.atlas.framework.util.listener.FailureRetryListener;
 
 @Log4j2
-@Listeners({BrowserPerTest.class, ScreenShooter.class, GlobalTextReport.class, CustomListener.class})
+@Listeners({BrowserPerTest.class, ScreenShooter.class, GlobalTextReport.class, CustomListener.class, FailureRetryListener.class})
 public class BaseEntity implements IHookable {
 
+    public static ResourcePropertiesManager testConfig = new ResourcePropertiesManager("config.properties");
     Atlas atlas;
 
     @BeforeMethod()
