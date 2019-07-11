@@ -31,10 +31,6 @@ jobs:
       PathtoPublish: '$(System.DefaultWorkingDirectory)'
       name: 'drop'
 
-  - task: DownloadPipelineArtifact@2
-    inputs:
-      artifact: PublishBuildArtifacts
-
     # Publish Test Results to Azure Pipelines/TFS
   - task: PublishTestResults@2
     displayName: Publish Test Results
@@ -45,3 +41,11 @@ jobs:
       mergeTestResults: false # Optional
       failTaskOnFailedTests: true # Optional
       publishRunAttachments: true # Optional
+
+  - task: DownloadPipelineArtifact@2
+    inputs:
+      artifact: PublishBuildArtifacts
+      targetPath: '$(Build.SourcesDirectory)\logs'
+
+  - script: ls
+    displayName: ls for $(vmImageVar) env
