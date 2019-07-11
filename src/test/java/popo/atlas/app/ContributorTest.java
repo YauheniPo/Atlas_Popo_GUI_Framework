@@ -1,5 +1,6 @@
 package popo.atlas.app;
 
+import com.automation.remarks.video.annotations.Video;
 import org.testng.annotations.Test;
 import popo.atlas.framework.base.BaseTest;
 import popo.atlas.framework.base.driver.Browser;
@@ -8,6 +9,7 @@ import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 
 public class ContributorTest extends BaseTest {
 
+    @Video
     @Test(groups = {TestGroup.GIT_GROUP})
     public void testContributor() {
         final String profile = "YauheniPo";

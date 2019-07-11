@@ -1,7 +1,8 @@
 package popo.atlas.framework.base;
 
+import com.automation.remarks.testng.UniversalVideoListener;
+import com.automation.remarks.video.annotations.Video;
 import com.codeborne.selenide.testng.BrowserPerTest;
-import com.codeborne.selenide.testng.GlobalTextReport;
 import com.codeborne.selenide.testng.ScreenShooter;
 import io.qameta.atlas.core.Atlas;
 import io.qameta.atlas.webdriver.WebDriverConfiguration;
@@ -15,15 +16,15 @@ import popo.atlas.framework.atlas.extention.ContainsClassExtension;
 import popo.atlas.framework.base.driver.Browser;
 import popo.atlas.framework.util.ResourcePropertiesManager;
 import popo.atlas.framework.util.listener.CustomListener;
-import popo.atlas.framework.util.listener.FailureRetryListener;
 
 @Log4j2
-@Listeners({BrowserPerTest.class, ScreenShooter.class, GlobalTextReport.class, CustomListener.class, FailureRetryListener.class})
+@Listeners({CustomListener.class, BrowserPerTest.class, ScreenShooter.class, UniversalVideoListener.class})
 public class BaseEntity implements IHookable {
 
     public static ResourcePropertiesManager testConfig = new ResourcePropertiesManager("config.properties");
     Atlas atlas;
 
+    @Video
     @BeforeMethod()
     public void beforeTest() {
         Browser.getInstance();
@@ -38,11 +39,6 @@ public class BaseEntity implements IHookable {
 
     @Override
     public void run(IHookCallBack callBack, ITestResult testResult) {
-        try {
-            callBack.runTestMethod(testResult);
-        } catch (Throwable throwable) {
-            log.fatal(throwable);
-            throwable.printStackTrace();
-        }
+        callBack.runTestMethod(testResult);
     }
 }
