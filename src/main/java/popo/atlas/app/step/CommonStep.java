@@ -7,7 +7,8 @@ import popo.atlas.app.page.SearchPage;
 import popo.atlas.framework.base.BaseTest;
 import ru.yandex.qatools.allure.annotations.Step;
 
-import static ru.yandex.qatools.matchers.webdriver.DisplayedMatcher.displayed;
+import static ru.yandex.qatools.matchers.webdriver.EnabledMatcher.enabled;
+import static ru.yandex.qatools.matchers.webdriver.ExistsMatcher.exists;
 
 public class CommonStep extends BaseTest {
 
@@ -17,9 +18,9 @@ public class CommonStep extends BaseTest {
         Header header = ((WithHeader)webPage).header();
         header
                 .searchInput()
-                .waitUntil(displayed());
+                .waitUntil(exists());
         header
-                .searchInput()
+                .searchInput().waitUntil(enabled())
                 .sendKeys(repoTitleText);
         header
                 .searchInput()
