@@ -23,6 +23,9 @@ public class CommonStep extends BaseTest {
                 .searchInput()
                 .waitUntil(exists()).getText();
         log.info("text " + text);
+        log.info("page " + getWebDriver().getPageSource());
+        log.info("displ " + header
+                .searchInput().getWrappedElement().isDisplayed());
         header
                 .searchInput().getWrappedElement().sendKeys(repoTitleText);
         log.info("page " + getWebDriver().getPageSource());
