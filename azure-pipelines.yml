@@ -52,4 +52,4 @@ jobs:
 
   - script: ls
     displayName: ls for $(vmImageVar) env
-    
+
