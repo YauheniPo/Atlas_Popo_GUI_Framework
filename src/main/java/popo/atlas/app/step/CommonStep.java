@@ -22,7 +22,7 @@ public class CommonStep extends BaseTest {
         Header header = ((WithHeader)webPage).header();
         header
                 .searchInput()
-                .waitUntil(displayed(), 100).getText();
+                .waitUntil(displayed(), 200).getText();
         log.info("displ " + header
                 .waitUntilAllElementsAreVisible().getWrappedElement().isDisplayed());
         header
