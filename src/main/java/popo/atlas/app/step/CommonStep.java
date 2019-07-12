@@ -7,6 +7,8 @@ import popo.atlas.app.page.SearchPage;
 import popo.atlas.framework.base.BaseTest;
 import ru.yandex.qatools.allure.annotations.Step;
 
+import static ru.yandex.qatools.matchers.webdriver.DisplayedMatcher.displayed;
+
 public class CommonStep extends BaseTest {
 
     @Step("Searching GitHub content: {1}")
@@ -15,7 +17,7 @@ public class CommonStep extends BaseTest {
         Header header = ((WithHeader)webPage).header();
         header
                 .searchInput()
-                .click();
+                .waitUntil(displayed());
         header
                 .searchInput()
                 .sendKeys(repoTitleText);
