@@ -9,6 +9,7 @@ import popo.atlas.app.page.SearchPage;
 import popo.atlas.framework.base.BaseTest;
 import ru.yandex.qatools.allure.annotations.Step;
 
+import static ru.yandex.qatools.matchers.webdriver.DisplayedMatcher.displayed;
 import static ru.yandex.qatools.matchers.webdriver.EnabledMatcher.enabled;
 import static ru.yandex.qatools.matchers.webdriver.ExistsMatcher.exists;
 
@@ -19,18 +20,15 @@ public class CommonStep extends BaseTest {
     protected <T extends WebPage & WithHeader> SearchPage search(Class<T> page, String repoTitleText) {
         WebPage webPage = onPage(page);
         Header header = ((WithHeader)webPage).header();
-        String text = header
+        header
                 .searchInput()
-                .waitUntil(exists()).getText();
-        log.info("text " + text);
-//        log.info("page " + getWebDriver().getPageSource());
+                .waitUntil(displayed(), 100).getText();
         log.info("displ " + header
                 .waitUntilAllElementsAreVisible().getWrappedElement().isDisplayed());
         header
                 .searchInput().getWrappedElement().sendKeys(repoTitleText);
-        text = header
-                .searchInput()
-                .waitUntil(exists()).getText();
+        String text = header
+                .searchInput().getText();
         log.info("text " + text);
 //        log.info("page " + getWebDriver().getPageSource());
 //        header.searchInput().sendKeys(repoTitleText);
