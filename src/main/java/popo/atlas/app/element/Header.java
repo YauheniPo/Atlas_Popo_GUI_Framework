@@ -10,6 +10,6 @@ public interface Header extends AtlasWebElement {
 
     @Description("Search Input")
     @ContainsClass(tag = "input", classValue = "header-search-input")
-    @Retry(ignoring = ElementNotInteractableException.class, timeout = 120000L)
+    @Retry(ignoring = ElementNotInteractableException.class, timeout = 200000L)
     AtlasWebElement searchInput();
 }
