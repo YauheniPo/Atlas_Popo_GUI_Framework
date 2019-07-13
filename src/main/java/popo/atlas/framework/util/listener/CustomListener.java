@@ -1,4 +1,4 @@
-package popo.atlas.framework.util;
+package popo.atlas.framework.util.listener;
 
 import lombok.extern.log4j.Log4j2;
 import org.testng.ITestResult;
@@ -9,6 +9,6 @@ public class CustomListener extends TestListenerAdapter {
 
     @Override
     public void onTestFailure(ITestResult tr) {
-        log.info(tr.getThrowable());
+        log.fatal(tr.getThrowable().getStackTrace(), tr.getThrowable());
     }
 }
