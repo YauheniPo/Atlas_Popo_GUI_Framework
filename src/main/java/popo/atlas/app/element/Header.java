@@ -10,15 +10,13 @@ import popo.atlas.framework.atlas.extention.ContainsClass;
 import popo.atlas.framework.base.driver.Browser;
 import ru.yandex.qatools.allure.annotations.Description;
 
-import java.util.NoSuchElementException;
-
 public interface Header extends AtlasWebElement {
 
     @Description("Search Input")
     @ContainsClass(tag = "input", classValue = "header-search-input")
     AtlasWebElement searchInput();
 
-    default AtlasWebElement waitUntilAllElementsAreVisible() {
+    default AtlasWebElement searchInputWaiter() {
         FluentWait<WebDriver> wait = new WebDriverWait(Browser.getDriver(), Browser.TIMEOUT)
                 .ignoring(ElementNotInteractableException.class, StaleElementReferenceException.class);
         return wait.until(driver -> searchInput());
