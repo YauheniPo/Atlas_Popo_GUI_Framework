@@ -18,7 +18,7 @@ public class CommonStep extends BaseTest {
         Header header = ((WithHeader)webPage).header();
         header.waitUntil(displayed(), Browser.TIMEOUT);
         header
-                .searchInput()
+                .searchInput().waitUntil(displayed(), Browser.TIMEOUT)
                 .sendKeys(searchText);
         header
                 .searchInput()
