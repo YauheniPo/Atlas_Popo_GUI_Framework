@@ -5,10 +5,7 @@ import popo.atlas.app.element.Header;
 import popo.atlas.app.layout.WithHeader;
 import popo.atlas.app.page.SearchPage;
 import popo.atlas.framework.base.BaseTest;
-import popo.atlas.framework.base.driver.Browser;
 import ru.yandex.qatools.allure.annotations.Step;
-
-import static ru.yandex.qatools.matchers.webdriver.DisplayedMatcher.displayed;
 
 public class CommonStep extends BaseTest {
 
@@ -17,7 +14,7 @@ public class CommonStep extends BaseTest {
         WebPage webPage = onPage(page);
         Header header = ((WithHeader)webPage).header();
         header
-                .searchInput().waitUntil(displayed(), Browser.TIMEOUT)
+                .searchInput()
                 .sendKeys(searchText);
         header
                 .searchInput()
