@@ -1,8 +1,6 @@
 package popo.atlas.framework.base;
 
-import com.automation.remarks.testng.UniversalVideoListener;
 import com.automation.remarks.video.annotations.Video;
-import com.codeborne.selenide.testng.BrowserPerTest;
 import com.codeborne.selenide.testng.ScreenShooter;
 import io.qameta.atlas.core.Atlas;
 import io.qameta.atlas.webdriver.WebDriverConfiguration;
@@ -18,7 +16,7 @@ import popo.atlas.framework.util.ResourcePropertiesManager;
 import popo.atlas.framework.util.listener.CustomListener;
 
 @Log4j2
-@Listeners({CustomListener.class, BrowserPerTest.class, ScreenShooter.class, UniversalVideoListener.class})
+@Listeners({CustomListener.class, ScreenShooter.class})
 public class BaseEntity implements IHookable {
 
     public static ResourcePropertiesManager testConfig = new ResourcePropertiesManager("config.properties");
@@ -31,6 +29,7 @@ public class BaseEntity implements IHookable {
         Browser.openStartPage();
         atlas = new Atlas(new WebDriverConfiguration(getWebDriver()))
                 .extension(new ContainsClassExtension());
+        log.info(String.format("Screen size is %s", getWebDriver().manage().window().getSize()));
     }
 
     protected static RemoteWebDriver getWebDriver() {
