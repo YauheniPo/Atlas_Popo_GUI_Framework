@@ -127,7 +127,7 @@
                 <version>3.0.0-M3</version>
                 <configuration>
                     <systemPropertyVariables>
-                        <chromeoptions.args>--disable-infobars,--incognito</chromeoptions.args>
+                        <chromeoptions.args>--disable-infobars,--incognito,--start-maximized</chromeoptions.args>
                         <!--<allure.results.directory>${basedir}/allure-results</allure.results.directory>-->
                     </systemPropertyVariables>
                     <suiteXmlFiles>
