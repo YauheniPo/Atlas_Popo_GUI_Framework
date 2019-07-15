@@ -16,7 +16,7 @@ import popo.atlas.framework.util.ResourcePropertiesManager;
 import popo.atlas.framework.util.listener.CustomListener;
 
 @Log4j2
-@Listeners({CustomListener.class, ScreenShooter.class})
+//@Listeners({CustomListener.class, ScreenShooter.class})
 public class BaseEntity implements IHookable {
 
     public static ResourcePropertiesManager testConfig = new ResourcePropertiesManager("config.properties");
