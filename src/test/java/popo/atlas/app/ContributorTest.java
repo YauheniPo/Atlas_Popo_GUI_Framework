@@ -5,7 +5,7 @@ import org.testng.annotations.Test;
 import popo.atlas.framework.base.BaseTest;
 import popo.atlas.framework.base.driver.Browser;
 
-import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
+import static org.hamcrest.Matchers.hasSize;
 
 public class ContributorTest extends BaseTest {
 

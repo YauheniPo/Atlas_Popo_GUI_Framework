@@ -52,8 +52,9 @@ public final class Browser {
         Configuration.timeout = IMPLICITLY_WAIT;
         Configuration.headless = IS_BROWSER_HEADLESS;
         Configuration.baseUrl = BROWSER_URL;
+//        Configuration.startMaximized = true;
+        Configuration.browserSize = "1920x1080";
         System.getProperties().setProperty("ATLAS_WEBSITE_URL", BROWSER_URL);
-        Configuration.startMaximized = true;
         DriverManager.setUp(currentBrowser);
     }
 
