@@ -1,7 +1,5 @@
 package popo.atlas.framework.base;
 
-import com.automation.remarks.video.annotations.Video;
-import com.codeborne.selenide.testng.ScreenShooter;
 import io.qameta.atlas.core.Atlas;
 import io.qameta.atlas.webdriver.WebDriverConfiguration;
 import lombok.extern.log4j.Log4j2;
@@ -16,13 +14,12 @@ import popo.atlas.framework.util.ResourcePropertiesManager;
 import popo.atlas.framework.util.listener.CustomListener;
 
 @Log4j2
-//@Listeners({CustomListener.class, ScreenShooter.class})
+@Listeners({CustomListener.class})
 public class BaseEntity implements IHookable {
 
     public static ResourcePropertiesManager testConfig = new ResourcePropertiesManager("config.properties");
     Atlas atlas;
 
-    @Video
     @BeforeMethod()
     public void beforeTest() {
         Browser.getInstance();

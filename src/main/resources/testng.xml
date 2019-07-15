@@ -3,12 +3,10 @@
 <suite name="atlas-popo" parallel="true" thread-count="10">
 <listeners>
     <listener class-name="popo.atlas.framework.util.listener.FailureRetryListener"/>
-    <!--<listener class-name="com.automation.remarks.testng.UniversalVideoListener"/>-->
+    <listener class-name="com.automation.remarks.testng.UniversalVideoListener"/>
+    <listener class-name="com.codeborne.selenide.testng.ScreenShooter"/>
 </listeners>
     <test name="atlas" parallel="methods" thread-count="10">
-        <!--<classes>-->
-            <!--<class name="popo.atlas.app.FindRepositoryTest"/>-->
-        <!--</classes>-->
         <packages>
             <package name="popo.atlas.app"/>
         </packages>
