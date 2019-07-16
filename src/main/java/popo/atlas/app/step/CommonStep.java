@@ -10,7 +10,7 @@ import ru.yandex.qatools.allure.annotations.Step;
 public class CommonStep extends BaseTest {
 
     @Step("Searching GitHub content: {1}")
-    protected <T extends WebPage & WithHeader> SearchPage search(Class<T> page, String searchText) {
+    protected synchronized <T extends WebPage & WithHeader> SearchPage search(Class<T> page, String searchText) {
         WebPage webPage = onPage(page);
         Header header = ((WithHeader)webPage).header();
         header
