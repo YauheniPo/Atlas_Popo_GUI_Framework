@@ -37,7 +37,7 @@ jobs:
     displayName: Publish Test Results
     inputs:
       testResultsFormat: 'JUnit'
-      testResultsFiles: 'target/**/testng-results.xml'
+      testResultsFiles: './target/surefire-reports/testng-results.xml'
       searchFolder: '$(System.DefaultWorkingDirectory)'
       mergeTestResults: false
       failTaskOnFailedTests: true
