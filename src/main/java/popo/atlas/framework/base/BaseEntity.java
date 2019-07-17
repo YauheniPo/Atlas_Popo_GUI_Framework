@@ -1,6 +1,7 @@
 package popo.atlas.framework.base;
 
 import com.codeborne.selenide.testng.BrowserPerTest;
+import com.codeborne.selenide.testng.ScreenShooter;
 import io.qameta.atlas.core.Atlas;
 import io.qameta.atlas.webdriver.WebDriverConfiguration;
 import lombok.extern.log4j.Log4j2;
@@ -12,7 +13,7 @@ import popo.atlas.framework.util.ResourcePropertiesManager;
 import popo.atlas.framework.util.listener.CustomListener;
 
 @Log4j2
-@Listeners({CustomListener.class, BrowserPerTest.class})
+@Listeners({CustomListener.class, BrowserPerTest.class, ScreenShooter.class})
 public class BaseEntity {
 
     public static ResourcePropertiesManager testConfig = new ResourcePropertiesManager("config.properties");
