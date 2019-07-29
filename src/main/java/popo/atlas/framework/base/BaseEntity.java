@@ -17,7 +17,7 @@ import popo.atlas.framework.util.listener.CustomListener;
 public class BaseEntity {
 
     public static ResourcePropertiesManager testConfig = new ResourcePropertiesManager("config.properties");
-    Atlas atlas;
+    protected Atlas atlas;
 
     @BeforeMethod()
     public void beforeTest() {
