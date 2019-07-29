@@ -24,7 +24,8 @@ jobs:
       jdkVersionOption: '1.8'
       jdkArchitectureOption: 'x64'
       publishJUnitResults: false
-      goals: 'clean compile test -Dmaven.test.failure.ignore=true site $(options) -Dmaven.wagon.http.pool=false'
+      goals: 'clean compile test site $(options) -Dmaven.wagon.http.pool=false'
+# -Dmaven.test.failure.ignore=true
 
   - task: PublishBuildArtifacts@1
     displayName: Publish Build Artifacts
