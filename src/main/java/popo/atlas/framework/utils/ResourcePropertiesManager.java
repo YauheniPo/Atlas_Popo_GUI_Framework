@@ -1,4 +1,4 @@
-package popo.atlas.framework.util;
+package popo.atlas.framework.utils;
 
 import lombok.Cleanup;
 import lombok.NonNull;

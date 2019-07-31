@@ -7,19 +7,18 @@ import popo.atlas.app.layout.WithHeader;
 import io.qameta.atlas.webdriver.ElementsCollection;
 import io.qameta.atlas.webdriver.WebPage;
 import io.qameta.atlas.webdriver.extension.FindBy;
-import popo.atlas.framework.base.driver.Browser;
 import ru.yandex.qatools.allure.annotations.Description;
 
 import static org.hamcrest.Matchers.*;
 
-public interface SearchPage extends WebPage, WithHeader {
+public interface SearchPage extends WebPage, WithHeader, BasePage {
 
     @Description("Repositories")
     @FindBy(".//ul[contains(@class, 'repo-list')]//*[contains(@class, 'repo-list-item')]")
     ElementsCollection<RepositoryCard> repositories();
 
     default ElementsCollection<RepositoryCard> repositoriesWithWait(int size) {
-        return repositories().waitUntil(hasSize(size), Browser.TIMEOUT);
+        return repositories().waitUntil(hasSize(size), BROWSER_CONFIGURATION.getTimeoutForCondition());
     }
 
     @Description("Repositories")
@@ -27,7 +26,7 @@ public interface SearchPage extends WebPage, WithHeader {
     ElementsCollection<UserCard> users();
 
     default ElementsCollection<UserCard> usersWithWait(int size) {
-        return users().waitUntil(hasSize(size), Browser.TIMEOUT);
+        return users().waitUntil(hasSize(size), BROWSER_CONFIGURATION.getTimeoutForCondition());
     }
 
     @Description("Searching Menu")

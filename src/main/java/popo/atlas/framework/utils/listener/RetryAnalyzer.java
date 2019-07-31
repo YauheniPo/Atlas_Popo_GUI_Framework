@@ -1,4 +1,4 @@
-package popo.atlas.framework.util.listener;
+package popo.atlas.framework.utils.listener;
 
 import org.testng.IRetryAnalyzer;
 import org.testng.ITestResult;

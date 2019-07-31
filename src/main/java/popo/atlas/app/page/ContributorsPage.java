@@ -6,7 +6,7 @@ import io.qameta.atlas.webdriver.extension.FindBy;
 import popo.atlas.app.element.RepositoryCard;
 import popo.atlas.app.layout.WithHeader;
 
-public interface ContributorsPage extends WebPage, WithHeader {
+public interface ContributorsPage extends WebPage, WithHeader, BasePage {
 
     @FindBy(".//ol[contains(@class, 'contrib-data')]//li[contains(@class, 'contrib-person')]")
     ElementsCollection<RepositoryCard> contribPersons();

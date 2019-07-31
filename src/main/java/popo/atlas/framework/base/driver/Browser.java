@@ -1,69 +1,104 @@
 package popo.atlas.framework.base.driver;
 
-import com.codeborne.selenide.Configuration;
-import com.codeborne.selenide.Selenide;
-import com.codeborne.selenide.WebDriverRunner;
-import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.apache.http.impl.client.BasicCookieStore;
-import org.apache.http.impl.cookie.BasicClientCookie;
-import org.openqa.selenium.Cookie;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.RemoteWebDriver;
-import popo.atlas.framework.util.ResourcePropertiesManager;
+import org.openqa.selenium.support.ui.ExpectedCondition;
+import popo.atlas.framework.base.SmartWait;
+import popo.atlas.framework.utils.ResourcePropertiesManager;
+import popo.atlas.framework.utils.configurations.BrowserConfiguration;
 
+import javax.naming.NamingException;
 import java.util.Locale;
-import java.util.Objects;
-import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 @Log4j2
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class Browser {
 
-    private static ResourcePropertiesManager rpStage = new ResourcePropertiesManager("stage.properties");
-    private static ResourcePropertiesManager rpBrowser = new ResourcePropertiesManager("browser.properties");
-    private static final String BROWSER_URL = rpStage.getStringProperty("url");
-    private static BrowserType currentBrowser = BrowserType.valueOf((System.getenv("browser") == null
-            ? rpBrowser.getStringProperty("browser") : ResourcePropertiesManager.getSystemEnvProperty("browser"))
-            .toUpperCase(Locale.ENGLISH));
-    private static final boolean IS_BROWSER_HEADLESS = rpBrowser.getBooleanProperties("browser.headless");
-    private static final long IMPLICITLY_WAIT = rpBrowser.getLongProperties("browser.implicitlyWait");
-    private static final String PAGE_LOAD_STRATEGY = rpBrowser.getStringProperty("browser.pageLoadStrategy", "normal");
-    public static final int TIMEOUT = rpBrowser.getIntProperties("browser.timeout");
-    private static Browser instance = null;
+    private static final BrowserConfiguration BROWSER_CONFIGURATION = BrowserConfiguration.getInstance();
+    private static final BrowserType BROWSER_BY_DEFAULT = BrowserType.CHROME;
+    private static final String BROWSER_PROP = "browser";
+    private static final ResourcePropertiesManager PROPERTIES_RESOURCE_MANAGER = BROWSER_CONFIGURATION.getRESOURCE_PROPERTIES_MANAGER();
+    private static final String currentBrowser = System.getProperty(BROWSER_PROP,
+            PROPERTIES_RESOURCE_MANAGER.getStringProperty(BROWSER_PROP, BROWSER_BY_DEFAULT.getValue()).toUpperCase(Locale.ENGLISH));
+    private static ThreadLocal<RemoteWebDriver> driverHolder = ThreadLocal.withInitial(Browser::getNewDriver);
+    private static Browser instance = new Browser();
 
-    public static void getInstance() {
-        Browser localBrowser = instance;
-        if (localBrowser == null) {
+    private Browser() {
+        log.info(String.format("Init Browser '%s'", currentBrowser));
+    }
+
+    /**
+     * Gets thread safe instance of Browser
+     *
+     * @return browser instance
+     */
+    public static Browser getInstance() {
+        if (instance == null) {
             synchronized (Browser.class) {
-                localBrowser = instance;
-                if (localBrowser == null) {
+                if (instance == null) {
                     instance = new Browser();
-                    initDriverConfigs();
                 }
+            }
+        }
+        return instance;
+    }
+
+    public static RemoteWebDriver getDriver() {
+        if (driverHolder.get() == null) {
+            driverHolder.set(getNewDriver());
+        }
+        return driverHolder.get();
+    }
+
+    public void exit() {
+        try {
+            getDriver().quit();
+            log.info("WebDriver quit");
+        } catch (Exception e) {
+            log.error(this, e);
+        } finally {
+            if (isBrowserAlive()) {
+                driverHolder.set(null);
             }
         }
     }
 
-    private static void initDriverConfigs() {
-        Configuration.pageLoadStrategy = PAGE_LOAD_STRATEGY;
-        Configuration.timeout = IMPLICITLY_WAIT;
-        Configuration.headless = IS_BROWSER_HEADLESS;
-        Configuration.baseUrl = BROWSER_URL;
-//        Configuration.startMaximized = true;
-        Configuration.browserSize = "1920x1080";
-        System.getProperties().setProperty("ATLAS_WEBSITE_URL", BROWSER_URL);
-        DriverManager.setUp(currentBrowser);
+    private boolean isBrowserAlive() {
+        return driverHolder.get() != null;
     }
 
-    public static void openStartPage() {
-        Selenide.open("");
+    public void openStartPage(final String url) {
+        waitForPageToLoad();
+        navigate(url);
+        windowMaximise();
     }
 
-    public static RemoteWebDriver getDriver() {
-        return (RemoteWebDriver) WebDriverRunner.getAndCheckWebDriver();
+    public void navigate(final String url) {
+        getDriver().navigate().to(url);
+    }
+
+    public void windowMaximise() {
+        getDriver().manage().window().maximize();
+    }
+
+    public void waitForPageToLoad() {
+        log.debug("Waiting for page to load");
+        ExpectedCondition<Boolean> condition = d ->
+                (Boolean) executeJSScript("return document['readyState'] ? 'complete' == document.readyState : true");
+        SmartWait.waitUntil(condition, BROWSER_CONFIGURATION.getDefaultTimeoutToLoadPages());
+    }
+
+    public Object executeJSScript(final String script, final WebElement... element) {
+        return ((JavascriptExecutor) getDriver()).executeScript(script, element);
+    }
+
+    public void back() {
+        getDriver().navigate().back();
+        log.info("Return to previous page");
     }
 
     @AllArgsConstructor()
@@ -78,15 +113,15 @@ public final class Browser {
         private final String value;
     }
 
-    public static BasicCookieStore getDriverCookieStore() {
-        Set<Cookie> cookies = getDriver().manage().getCookies();
-        BasicCookieStore cookieStore = new BasicCookieStore();
-        for (Cookie c : cookies) {
-            BasicClientCookie cookie = new BasicClientCookie(c.getName(), c.getValue());
-            Objects.requireNonNull(cookie).setDomain(c.getDomain());
-            cookie.setPath(c.getPath());
-            cookieStore.addCookie(cookie);
+    private static RemoteWebDriver getNewDriver() {
+        try {
+            RemoteWebDriver driver = BrowserFactory.setUp(currentBrowser);
+            driver.manage().timeouts().implicitlyWait(BROWSER_CONFIGURATION.getImplicitlyWait(), TimeUnit.SECONDS);
+            log.info("getNewDriver");
+            return driver;
+        } catch (NamingException e) {
+            log.error("getNewDriver", e);
         }
-        return cookieStore;
+        return null;
     }
 }
