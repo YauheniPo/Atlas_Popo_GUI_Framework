@@ -9,6 +9,6 @@ public class BaseTest extends BaseEntity {
 
     protected <T extends WrapsDriver & SearchContext> T onPage(Class<T> page) {
         log.info(String.format("Go to %s page", page.getName()));
-        return super.atlas.create(getWebDriver(), page);
+        return super.atlasThreadLocal.get().create(getWebDriver(), page);
     }
 }

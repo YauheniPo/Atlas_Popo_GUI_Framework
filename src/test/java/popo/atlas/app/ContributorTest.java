@@ -22,7 +22,7 @@ public class ContributorTest extends BaseTest {
         gitHubSite.onProjectPage(myProfile, project).contributors().click();
         gitHubSite.onContributorsPage().contribPersons()
                 .waitUntil(String.format("Profile '%s' project '%s' does not have contributors", myProfile, project),
-                        hasSize(1));
+                        hasSize(1), BROWSER_CONFIGURATION.getTimeoutForCondition());
     }
 
     @Video
@@ -35,6 +35,6 @@ public class ContributorTest extends BaseTest {
         gitHubSite.onProjectPage(profile, project).contributors().click();
         gitHubSite.onContributorsPage().contribPersons()
                 .waitUntil(String.format("Profile '%s' project '%s' does not have contributor '%s'", profile, project, myProfile),
-                        hasItem(text(containsString(myProfile))));
+                        hasItem(text(containsString(myProfile))), BROWSER_CONFIGURATION.getTimeoutForCondition());
     }
 }
