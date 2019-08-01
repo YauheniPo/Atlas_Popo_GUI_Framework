@@ -54,6 +54,9 @@ jobs:
   - script: ls
     displayName: ls for $(vmImageVar) env
 
-  - script: type logs/log.log
-    displayName: print logs
+  - task: Bash@3
+    inputs:
+      targetType: 'inline'
+      script: 'type logs/log.log'
+  
 
