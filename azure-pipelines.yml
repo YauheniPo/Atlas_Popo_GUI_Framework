@@ -15,8 +15,6 @@ jobs:
   - script: ls
     displayName: ls command
 
-  - task: SonarCloudAnalyze@1
-
   - task: Maven@3
     displayName: Maven Package
     inputs:
