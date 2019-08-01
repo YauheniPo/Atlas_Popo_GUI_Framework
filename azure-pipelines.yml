@@ -15,6 +15,8 @@ jobs:
   - script: ls
     displayName: ls command
 
+  - task: SonarCloudAnalyze@1
+
   - task: Maven@3
     displayName: Maven Package
     inputs:
@@ -24,7 +26,7 @@ jobs:
       jdkVersionOption: '1.8'
       jdkArchitectureOption: 'x64'
       publishJUnitResults: false
-      goals: 'clean compile test site -Dmaven.test.failure.ignore=true $(options) -Dmaven.wagon.http.pool=false'
+      goals: 'clean compile test site -Dmaven.test.failure.ignore=true$(options) -Dmaven.wagon.http.pool=false'
 # -Dmaven.test.failure.ignore=true
 
   - task: PublishBuildArtifacts@1
@@ -50,6 +52,19 @@ jobs:
     inputs:
       artifactName: 'PublishPipelineArtifact'
       targetPath: '$(System.DefaultWorkingDirectory)'
+
+  - task: ArchiveFiles@2
+    inputs:
+      rootFolderOrFile: '$(Build.BinariesDirectory)'
+      includeRootFolder: true
+      archiveType: 'zip'
+      archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+      replaceExistingArchive: true
+
+  - task: CopyFiles@2
+    inputs:
+      Contents: '**'
+      TargetFolder: CopyFiles
 
   - script: ls
     displayName: ls for $(vmImageVar) env
