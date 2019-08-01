@@ -56,13 +56,13 @@ jobs:
       rootFolderOrFile: '$(Build.BinariesDirectory)'
       includeRootFolder: true
       archiveType: 'zip'
-      archiveFile: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId).zip'
+      archiveFile: '$(System.DefaultWorkingDirectory)/$(Build.BuildId).zip'
       replaceExistingArchive: true
 
   - task: CopyFiles@2
     inputs:
       Contents: '**'
-      TargetFolder: CopyFiles
+      TargetFolder: '$(Build.ArtifactStagingDirectory)/$(Build.BuildId)/copyFiles'
 
   - script: ls
     displayName: ls for $(vmImageVar) env
