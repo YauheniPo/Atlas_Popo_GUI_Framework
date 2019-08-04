@@ -13,7 +13,7 @@ public class BrowserConfiguration {
     private static final String DEFAULT_PAGE_LOAD_TIMEOUT = "defaultPageLoadTimeout";
     private static final String IMPLICITLY_WAIT = "defaultImplicitlyWait";
     private static final String POLLING_INTERVAL = "defaultPollingInterval";
-    @Getter private static final ResourcePropertiesManager RESOURCE_PROPERTIES_MANAGER = new ResourcePropertiesManager(PROPERTIES_FILE);
+    @Getter private final ResourcePropertiesManager resourcePropertiesManager = new ResourcePropertiesManager(PROPERTIES_FILE);
     private static BrowserConfiguration configuration = null;
 
     public static BrowserConfiguration getInstance() {
@@ -28,18 +28,18 @@ public class BrowserConfiguration {
     }
 
     public int getTimeoutForCondition() {
-        return RESOURCE_PROPERTIES_MANAGER.getIntProperties(DEFAULT_CONDITION_TIMEOUT);
+        return resourcePropertiesManager.getIntProperties(DEFAULT_CONDITION_TIMEOUT);
     }
 
     public long getImplicitlyWait() {
-        return RESOURCE_PROPERTIES_MANAGER.getLongProperties(IMPLICITLY_WAIT);
+        return resourcePropertiesManager.getLongProperties(IMPLICITLY_WAIT);
     }
 
     public long getPollingInterval() {
-        return RESOURCE_PROPERTIES_MANAGER.getLongProperties(POLLING_INTERVAL);
+        return resourcePropertiesManager.getLongProperties(POLLING_INTERVAL);
     }
 
     public long getDefaultTimeoutToLoadPages() {
-        return RESOURCE_PROPERTIES_MANAGER.getLongProperties(DEFAULT_PAGE_LOAD_TIMEOUT);
+        return resourcePropertiesManager.getLongProperties(DEFAULT_PAGE_LOAD_TIMEOUT);
     }
 }

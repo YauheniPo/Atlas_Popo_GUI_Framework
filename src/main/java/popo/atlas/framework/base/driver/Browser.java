@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.logging.LogEntries;
+import org.openqa.selenium.logging.LogType;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import popo.atlas.framework.base.SmartWait;
@@ -21,7 +23,7 @@ public final class Browser {
     private static final BrowserConfiguration BROWSER_CONFIGURATION = BrowserConfiguration.getInstance();
     private static final BrowserType BROWSER_BY_DEFAULT = BrowserType.CHROME;
     private static final String BROWSER_PROP = "browser";
-    private static final ResourcePropertiesManager PROPERTIES_RESOURCE_MANAGER = BROWSER_CONFIGURATION.getRESOURCE_PROPERTIES_MANAGER();
+    private static final ResourcePropertiesManager PROPERTIES_RESOURCE_MANAGER = BROWSER_CONFIGURATION.getResourcePropertiesManager();
     private static final String currentBrowser = System.getProperty(BROWSER_PROP,
             PROPERTIES_RESOURCE_MANAGER.getStringProperty(BROWSER_PROP, BROWSER_BY_DEFAULT.getValue()).toUpperCase(Locale.ENGLISH));
     private static ThreadLocal<RemoteWebDriver> driverHolder = ThreadLocal.withInitial(Browser::getNewDriver);
@@ -72,7 +74,6 @@ public final class Browser {
     }
 
     public void openStartPage(final String url) {
-        waitForPageToLoad();
         navigate(url);
         windowMaximise();
     }
@@ -92,7 +93,11 @@ public final class Browser {
         SmartWait.waitUntil(condition, BROWSER_CONFIGURATION.getDefaultTimeoutToLoadPages());
     }
 
-    public Object executeJSScript(final String script, final WebElement... element) {
+    public Object executeJSScript(final String script) {
+        return ((JavascriptExecutor) getDriver()).executeScript(script);
+    }
+
+    public Object executeJSScript(final String script, final WebElement element) {
         return ((JavascriptExecutor) getDriver()).executeScript(script, element);
     }
 
@@ -123,5 +128,9 @@ public final class Browser {
             log.error("getNewDriver", e);
         }
         return null;
+    }
+
+    public static LogEntries getDriverLogs() {
+        return getDriver().manage().logs().get(LogType.PERFORMANCE);
     }
 }

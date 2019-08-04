@@ -7,7 +7,6 @@ import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Listeners;
 import popo.atlas.framework.atlas.extention.ContainsClassExtension;
 import popo.atlas.framework.base.driver.Browser;
@@ -23,17 +22,11 @@ public class BaseEntity {
     protected static final BrowserConfiguration BROWSER_CONFIGURATION = BrowserConfiguration.getInstance();
     protected ThreadLocal<Atlas> atlasThreadLocal = new ThreadLocal<>();
 
-    @BeforeSuite
-    public void beforeSuite() {
-        System.getProperties().setProperty("ATLAS_WEBSITE_URL", STAGE_CONFIGURATION.getStageUrl());
-    }
-
     @BeforeMethod()
     public void beforeMethod() {
-        Browser browser = Browser.getInstance();
-        browser.openStartPage(STAGE_CONFIGURATION.getStageUrl());
+        Browser.getInstance();
         if (this.atlasThreadLocal.get() == null) {
-            this.atlasThreadLocal.set(new Atlas(new WebDriverConfiguration(getWebDriver()))
+            this.atlasThreadLocal.set(new Atlas(new WebDriverConfiguration(getWebDriver(), STAGE_CONFIGURATION.getStageUrl()))
                     .extension(new ContainsClassExtension()));
         }
         log.info(String.format("Screen size is %s", getWebDriver().manage().window().getSize()));

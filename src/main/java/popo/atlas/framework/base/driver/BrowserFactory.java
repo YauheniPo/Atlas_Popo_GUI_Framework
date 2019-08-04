@@ -5,6 +5,7 @@ import io.github.bonigarcia.wdm.DriverManagerType;
 import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.logging.LogType;
 import org.openqa.selenium.logging.LoggingPreferences;
 import org.openqa.selenium.remote.CapabilityType;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -68,7 +69,7 @@ final public class BrowserFactory {
 
     private static RemoteWebDriver getChromeDriver() {
         LoggingPreferences logPrefs = new LoggingPreferences();
-        logPrefs.enable("browser", Level.ALL);
+        logPrefs.enable(LogType.PERFORMANCE, Level.ALL);
         Map<String, Object> prefs = new HashMap<>();
         prefs.put("credentials_enable_service", false);
         prefs.put("profile.password_manager_enabled", false);
@@ -76,10 +77,11 @@ final public class BrowserFactory {
         prefs.put("download.default_directory", System.getProperty("user.dir"));
         ChromeOptions options = new ChromeOptions();
         options.setExperimentalOption("prefs", prefs);
-        if (BrowserConfiguration.getRESOURCE_PROPERTIES_MANAGER().getBooleanProperties(KEY_BROWSER_HEADLESS)) {
+        if (BrowserConfiguration.getInstance().getResourcePropertiesManager().getBooleanProperties(KEY_BROWSER_HEADLESS)) {
             options.addArguments("headless");
         }
         options.addArguments("window-size=1920x1080");
+//        options.setExperimentalOption("w3c", true);
         DesiredCapabilities caps1 = DesiredCapabilities.chrome();
         caps1.setCapability(ChromeOptions.CAPABILITY, options);
         caps1.setCapability(CapabilityType.LOGGING_PREFS, logPrefs);
