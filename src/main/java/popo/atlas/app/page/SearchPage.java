@@ -7,6 +7,7 @@ import popo.atlas.app.layout.WithHeader;
 import io.qameta.atlas.webdriver.ElementsCollection;
 import io.qameta.atlas.webdriver.WebPage;
 import io.qameta.atlas.webdriver.extension.FindBy;
+import popo.atlas.framework.base.SmartWait;
 import ru.yandex.qatools.allure.annotations.Description;
 
 import static org.hamcrest.Matchers.*;
@@ -18,7 +19,7 @@ public interface SearchPage extends WebPage, WithHeader, BasePage {
     ElementsCollection<RepositoryCard> repositories();
 
     default ElementsCollection<RepositoryCard> repositoriesWithWait(int size) {
-        return repositories().waitUntil(hasSize(size), BROWSER_CONFIGURATION.getTimeoutForCondition());
+        return repositories().waitUntil(hasSize(size), SmartWait.BROWSER_CONFIGURATION.getTimeoutForConditionInSeconds());
     }
 
     @Description("Repositories")
@@ -26,11 +27,10 @@ public interface SearchPage extends WebPage, WithHeader, BasePage {
     ElementsCollection<UserCard> users();
 
     default ElementsCollection<UserCard> usersWithWait(int size) {
-        return users().waitUntil(hasSize(size), BROWSER_CONFIGURATION.getTimeoutForCondition());
+        return users().waitUntil(hasSize(size), SmartWait.BROWSER_CONFIGURATION.getTimeoutForConditionInSeconds());
     }
 
     @Description("Searching Menu")
     @FindBy(".//nav[contains(@class, 'menu')]/ancestor::div[1]")
     SearchingMenu menu();
-
 }

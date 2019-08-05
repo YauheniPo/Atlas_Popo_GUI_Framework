@@ -5,8 +5,6 @@ import lombok.Getter;
 import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.logging.LogEntries;
-import org.openqa.selenium.logging.LogType;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import popo.atlas.framework.base.SmartWait;
@@ -14,7 +12,6 @@ import popo.atlas.framework.utils.ResourcePropertiesManager;
 import popo.atlas.framework.utils.configurations.BrowserConfiguration;
 
 import javax.naming.NamingException;
-import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 @Log4j2
@@ -25,7 +22,7 @@ public final class Browser {
     private static final String BROWSER_PROP = "browser";
     private static final ResourcePropertiesManager PROPERTIES_RESOURCE_MANAGER = BROWSER_CONFIGURATION.getResourcePropertiesManager();
     private static final String currentBrowser = System.getProperty(BROWSER_PROP,
-            PROPERTIES_RESOURCE_MANAGER.getStringProperty(BROWSER_PROP, BROWSER_BY_DEFAULT.getValue()).toUpperCase(Locale.ENGLISH));
+            PROPERTIES_RESOURCE_MANAGER.getStringProperty(BROWSER_PROP, BROWSER_BY_DEFAULT.getValue()));
     private static ThreadLocal<RemoteWebDriver> driverHolder = ThreadLocal.withInitial(Browser::getNewDriver);
     private static Browser instance = new Browser();
 
@@ -128,9 +125,5 @@ public final class Browser {
             log.error("getNewDriver", e);
         }
         return null;
-    }
-
-    public static LogEntries getDriverLogs() {
-        return getDriver().manage().logs().get(LogType.PERFORMANCE);
     }
 }

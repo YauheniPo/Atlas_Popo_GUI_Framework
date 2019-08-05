@@ -3,7 +3,6 @@
 <suite name="atlas-popo" parallel="true" thread-count="10">
 <listeners>
     <listener class-name="popo.atlas.framework.utils.listener.FailureRetryListener"/>
-    <!--<listener class-name="com.automation.remarks.testng.UniversalVideoListener"/>-->
 </listeners>
     <test name="atlas" parallel="methods" thread-count="10">
         <packages>

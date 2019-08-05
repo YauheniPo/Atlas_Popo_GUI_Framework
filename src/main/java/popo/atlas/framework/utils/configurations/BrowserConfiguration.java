@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import popo.atlas.framework.utils.ResourcePropertiesManager;
 
+import java.util.concurrent.TimeUnit;
+
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class BrowserConfiguration {
 
@@ -27,8 +29,12 @@ public class BrowserConfiguration {
         return configuration;
     }
 
-    public int getTimeoutForCondition() {
-        return resourcePropertiesManager.getIntProperties(DEFAULT_CONDITION_TIMEOUT);
+    public long getTimeoutForConditionInMellis() {
+        return resourcePropertiesManager.getLongProperties(DEFAULT_CONDITION_TIMEOUT);
+    }
+
+    public int getTimeoutForConditionInSeconds() {
+        return (int) TimeUnit.MILLISECONDS.toSeconds(resourcePropertiesManager.getIntProperties(DEFAULT_CONDITION_TIMEOUT));
     }
 
     public long getImplicitlyWait() {

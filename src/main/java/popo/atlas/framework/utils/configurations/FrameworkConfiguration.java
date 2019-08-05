@@ -9,7 +9,7 @@ import popo.atlas.framework.utils.ResourcePropertiesManager;
 public class FrameworkConfiguration {
 
     private static final String PROPERTIES_FILE = "framework.properties";
-    private static final String CUSTOM_RETRY_ANALYZER = "framework.customRetryAnalyzer";
+    private static final String CUSTOM_RETRY_ANALYZER_MAX_RERUN_COUNT = "framework.maxRerunCount";
     @Getter private static final ResourcePropertiesManager RESOURCE_PROPERTIES_MANAGER = new ResourcePropertiesManager(PROPERTIES_FILE);
     private static FrameworkConfiguration configuration = null;
 
@@ -24,7 +24,7 @@ public class FrameworkConfiguration {
         return configuration;
     }
 
-    public boolean isCustomRetryAnalyzer() {
-        return RESOURCE_PROPERTIES_MANAGER.getBooleanProperties(CUSTOM_RETRY_ANALYZER);
+    public int getMaxRerunCount() {
+        return RESOURCE_PROPERTIES_MANAGER.getIntProperties(CUSTOM_RETRY_ANALYZER_MAX_RERUN_COUNT);
     }
 }

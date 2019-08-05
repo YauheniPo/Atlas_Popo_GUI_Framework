@@ -15,22 +15,22 @@ import java.util.concurrent.TimeUnit;
 @Log4j2
 final public class SmartWait {
 
-    private static final BrowserConfiguration BROWSER_CONFIGURATION = BrowserConfiguration.getInstance();
+    public static final BrowserConfiguration BROWSER_CONFIGURATION = BrowserConfiguration.getInstance();
 
     private SmartWait() {
         throw new IllegalStateException("Utility class");
     }
 
     public static <T> T waitFor(ExpectedCondition<T> condition) {
-        return waitFor(condition, BROWSER_CONFIGURATION.getTimeoutForCondition());
+        return waitFor(condition, BROWSER_CONFIGURATION.getTimeoutForConditionInSeconds());
     }
 
     public static void waitUntil(ExpectedCondition<Boolean> condition, long timeOutInSeconds) {
-        wait(timeOutInSeconds, 500L).until(condition);
+        wait(timeOutInSeconds, BROWSER_CONFIGURATION.getPollingInterval()).until(condition);
     }
 
     public static void waitUntil(ExpectedCondition<Boolean> condition) {
-        waitUntil(condition, BROWSER_CONFIGURATION.getTimeoutForCondition());
+        waitUntil(condition, BROWSER_CONFIGURATION.getTimeoutForConditionInSeconds());
     }
 
     private static Wait<WebDriver> wait(long timeOutInSeconds, long pollingInterval) {
@@ -48,7 +48,7 @@ final public class SmartWait {
     }
 
     public static boolean waitForTrue(ExpectedCondition<Boolean> condition) {
-        return waitForTrue(condition, BROWSER_CONFIGURATION.getTimeoutForCondition());
+        return waitForTrue(condition, BROWSER_CONFIGURATION.getTimeoutForConditionInMellis());
     }
 
     public static boolean waitForTrue(ExpectedCondition<Boolean> condition, long timeOutInSeconds) {
