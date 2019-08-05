@@ -54,8 +54,11 @@ jobs:
   - script: ls
     displayName: ls for $(vmImageVar) env
 
-  - task: Bash@3
+  - task: AzurePowerShell@4
     inputs:
-      targetType: 'inline'
-      script: 'more logs\log.log'
-
+      ScriptType: 'InlineScript'
+      Inline: 'more logs\log.log'
+      errorActionPreference: 'continue'
+      azurePowerShellVersion: 'LatestVersion'
+  
+  
