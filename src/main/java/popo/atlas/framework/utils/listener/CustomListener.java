@@ -11,4 +11,9 @@ public class CustomListener extends TestListenerAdapter {
     public void onTestFailure(ITestResult tr) {
         log.error(tr.getThrowable().getStackTrace(), tr.getThrowable());
     }
+
+    @Override
+    public void onTestSuccess(ITestResult tr) {
+        log.debug(tr.getTestClass().getName() + "." + tr.getMethod().getMethodName() );
+    }
 }
