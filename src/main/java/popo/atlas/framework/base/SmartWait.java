@@ -25,6 +25,14 @@ final public class SmartWait {
         return waitFor(condition, BROWSER_CONFIGURATION.getTimeoutForConditionInSeconds());
     }
 
+    private static <T> T waitFor(ExpectedCondition<T> condition, long timeOutInSeconds) {
+        try {
+            return wait(timeOutInSeconds, BROWSER_CONFIGURATION.getPollingInterval()).until(condition);
+        } finally {
+            Browser.getDriver().manage().timeouts().implicitlyWait(BROWSER_CONFIGURATION.getImplicitlyWait(), TimeUnit.SECONDS);
+        }
+    }
+
     public static void waitUntil(ExpectedCondition<Boolean> condition, long timeOutInSeconds) {
         wait(timeOutInSeconds, BROWSER_CONFIGURATION.getPollingInterval()).until(condition);
     }
@@ -37,14 +45,6 @@ final public class SmartWait {
         Browser.getDriver().manage().timeouts().implicitlyWait(0L, TimeUnit.MILLISECONDS);
         return new WebDriverWait(Browser.getDriver(), timeOutInSeconds, pollingInterval)
                 .ignoring(StaleElementReferenceException.class, WebDriverException.class);
-    }
-
-    private static <T> T waitFor(ExpectedCondition<T> condition, long timeOutInSeconds) {
-        try {
-            return wait(timeOutInSeconds, BROWSER_CONFIGURATION.getPollingInterval()).until(condition);
-        } finally {
-            Browser.getDriver().manage().timeouts().implicitlyWait(BROWSER_CONFIGURATION.getImplicitlyWait(), TimeUnit.SECONDS);
-        }
     }
 
     public static boolean waitForTrue(ExpectedCondition<Boolean> condition) {
