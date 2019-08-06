@@ -54,6 +54,7 @@ jobs:
   - script: ls
     displayName: $(vmImageVar) env
 
-  - task: PrintLogFile@2
+  - task: CmdLine@2
+    displayName: Print Log File logs\log.log
     inputs:
       script: 'more logs\log.log'
