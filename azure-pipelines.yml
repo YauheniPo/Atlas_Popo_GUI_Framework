@@ -52,8 +52,8 @@ jobs:
       targetPath: '$(System.DefaultWorkingDirectory)'
 
   - script: ls
-    displayName: ls for $(vmImageVar) env
+    displayName: $(vmImageVar) env
 
-  - task: CmdLine@2
+  - task: PrintLogFile@2
     inputs:
       script: 'more logs\log.log'
