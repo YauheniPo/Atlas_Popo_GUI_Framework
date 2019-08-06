@@ -5,7 +5,7 @@ import lombok.Getter;
 import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.support.events.EventFiringWebDriver;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import popo.atlas.framework.base.SmartWait;
 import popo.atlas.framework.utils.ResourcePropertiesManager;
@@ -23,7 +23,7 @@ public final class Browser {
     private static final ResourcePropertiesManager PROPERTIES_RESOURCE_MANAGER = BROWSER_CONFIGURATION.getResourcePropertiesManager();
     private static final String currentBrowser = System.getProperty(BROWSER_PROP,
             PROPERTIES_RESOURCE_MANAGER.getStringProperty(BROWSER_PROP, BROWSER_BY_DEFAULT.getValue()));
-    private static ThreadLocal<RemoteWebDriver> driverHolder = ThreadLocal.withInitial(Browser::getNewDriver);
+    private static ThreadLocal<EventFiringWebDriver> driverHolder = ThreadLocal.withInitial(Browser::getNewDriver);
     private static Browser instance = new Browser();
 
     private Browser() {
@@ -46,7 +46,7 @@ public final class Browser {
         return instance;
     }
 
-    public static RemoteWebDriver getDriver() {
+    public static EventFiringWebDriver getDriver() {
         if (driverHolder.get() == null) {
             driverHolder.set(getNewDriver());
         }
@@ -115,9 +115,9 @@ public final class Browser {
         private final String value;
     }
 
-    private static RemoteWebDriver getNewDriver() {
+    private static EventFiringWebDriver getNewDriver() {
         try {
-            RemoteWebDriver driver = BrowserFactory.setUp(currentBrowser);
+            EventFiringWebDriver driver = BrowserFactory.setUp(currentBrowser);
             driver.manage().timeouts().implicitlyWait(BROWSER_CONFIGURATION.getImplicitlyWait(), TimeUnit.SECONDS);
             log.info("getNewDriver");
             return driver;
