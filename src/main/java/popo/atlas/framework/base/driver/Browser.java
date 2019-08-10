@@ -8,8 +8,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.events.EventFiringWebDriver;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import popo.atlas.framework.base.SmartWait;
-import popo.atlas.framework.utils.ResourcePropertiesManager;
-import popo.atlas.framework.utils.configurations.BrowserConfiguration;
+import popo.atlas.framework.utils.configurations.BrowserProperties;
 
 import javax.naming.NamingException;
 import java.util.concurrent.TimeUnit;
@@ -17,12 +16,8 @@ import java.util.concurrent.TimeUnit;
 @Log4j2
 public final class Browser {
 
-    private static final BrowserConfiguration BROWSER_CONFIGURATION = BrowserConfiguration.getInstance();
-    private static final BrowserType BROWSER_BY_DEFAULT = BrowserType.CHROME;
-    private static final String BROWSER_PROP = "browser";
-    private static final ResourcePropertiesManager PROPERTIES_RESOURCE_MANAGER = BROWSER_CONFIGURATION.getResourcePropertiesManager();
-    private static final String currentBrowser = System.getProperty(BROWSER_PROP,
-            PROPERTIES_RESOURCE_MANAGER.getStringProperty(BROWSER_PROP, BROWSER_BY_DEFAULT.getValue()));
+    private static final BrowserProperties BROWSER_PROPERTIES = BrowserProperties.getInstance();
+    private static final String currentBrowser = System.getProperty("browser", BROWSER_PROPERTIES.getBrowser());
     private static ThreadLocal<EventFiringWebDriver> driverHolder = ThreadLocal.withInitial(Browser::getNewDriver);
     private static Browser instance = new Browser();
 
@@ -87,7 +82,7 @@ public final class Browser {
         log.debug("Waiting for page to load");
         ExpectedCondition<Boolean> condition = d ->
                 (Boolean) executeJSScript("return document['readyState'] ? 'complete' == document.readyState : true");
-        SmartWait.waitUntil(condition, BROWSER_CONFIGURATION.getDefaultTimeoutToLoadPages());
+        SmartWait.waitUntil(condition, BROWSER_PROPERTIES.getDefaultPageLoadTimeout());
     }
 
     public Object executeJSScript(final String script) {
@@ -118,7 +113,7 @@ public final class Browser {
     private static EventFiringWebDriver getNewDriver() {
         try {
             EventFiringWebDriver driver = BrowserFactory.setUp(currentBrowser);
-            driver.manage().timeouts().implicitlyWait(BROWSER_CONFIGURATION.getImplicitlyWait(), TimeUnit.SECONDS);
+            driver.manage().timeouts().implicitlyWait(BROWSER_PROPERTIES.getDefaultImplicitlyWait(), TimeUnit.SECONDS);
             log.info("getNewDriver");
             return driver;
         } catch (NamingException e) {

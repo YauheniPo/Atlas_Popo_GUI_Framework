@@ -16,8 +16,8 @@ public class FindRepositoryTest extends CommonStep {
 
         SearchPage searchPage = search(MainPage.class, repoTitleText);
 
-        searchPage.repositoriesWithWait(1)
-                .should(String.format("Every repository does not contains '%s'", repoTitleText),
-                        everyItem(text(anyOf(containsString(repoTitleText), containsString(repoTitleText.toLowerCase())))));
+        searchPage.repositories()
+                .waitUntil(String.format("Any repository does not contains '%s'", repoTitleText),
+                        contains(text(anyOf(containsString(repoTitleText), containsString(repoTitleText.toLowerCase())))));
     }
 }

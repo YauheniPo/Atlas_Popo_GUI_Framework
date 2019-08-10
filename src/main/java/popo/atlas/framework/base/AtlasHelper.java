@@ -9,7 +9,7 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.StaleElementReferenceException;
 import popo.atlas.framework.atlas.extention.ContainsClassExtension;
 import popo.atlas.framework.base.driver.Browser;
-import popo.atlas.framework.utils.configurations.StageConfiguration;
+import popo.atlas.framework.utils.configurations.StageProperties;
 
 import java.util.Arrays;
 
@@ -35,12 +35,12 @@ public class AtlasHelper {
     }
 
     private static Atlas initAtlas() {
-        return new Atlas(new WebDriverConfiguration(Browser.getDriver(), StageConfiguration.getInstance().getStageUrl()))
+        return new Atlas(new WebDriverConfiguration(Browser.getDriver(), StageProperties.getInstance().getUrl()))
                 .extension(new ContainsClassExtension())
                 .context(new RetryerContext(
                         new DefaultRetryer(
-                                SmartWait.BROWSER_CONFIGURATION.getTimeoutForConditionInMellis(),
-                                SmartWait.BROWSER_CONFIGURATION.getPollingInterval(),
+                                (long) SmartWait.BROWSER_PROPERTIES.getDefaultConditionTimeoutMillis(),
+                                SmartWait.BROWSER_PROPERTIES.getDefaultPollingInterval(),
                                 Arrays.asList(NoSuchElementException.class, StaleElementReferenceException.class))));
     }
 

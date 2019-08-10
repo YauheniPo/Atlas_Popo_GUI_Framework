@@ -6,18 +6,19 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Listeners;
 import popo.atlas.framework.base.driver.Browser;
-import popo.atlas.framework.utils.configurations.StageConfiguration;
+import popo.atlas.framework.utils.configurations.BrowserProperties;
+import popo.atlas.framework.utils.configurations.StageProperties;
 import popo.atlas.framework.utils.listener.CustomListener;
 
 @Log4j2
 @Listeners({CustomListener.class})
 public class BaseEntity {
 
-    protected static final StageConfiguration STAGE_CONFIGURATION = StageConfiguration.getInstance();
+    protected static final BrowserProperties BROWSER_PROPERTIES = BrowserProperties.getInstance();
 
     @BeforeMethod()
     public void beforeMethod() {
-        Browser.getInstance().openStartPage(STAGE_CONFIGURATION.getStageUrl());
+        Browser.getInstance().openStartPage(StageProperties.getInstance().getUrl());
         AtlasHelper.getInstance();
     }
 

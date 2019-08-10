@@ -18,14 +18,14 @@ public class FindUserTest extends CommonStep {
         SearchPage searchPage = search(MainPage.class, username);
 
         searchPage.menu().item(SearchingMenu.USERS_ITEM).click();
-        searchPage.usersWithWait(1).get(0).username()
+        searchPage.users().get(0).username()
                 .should(String.format("Every repository does not contains '%s'", username), is(text(username)));
     }
 
     @Test(groups = {TestGroup.GIT_GROUP})
     public void testFindUserByNameUrlParams() {
         GitHubSite gitHubSite = onPage(GitHubSite.class);
-        gitHubSite.onSearchPage(username, SearchingMenu.USERS_ITEM).usersWithWait(1).get(0).username()
+        gitHubSite.onSearchPage(username, SearchingMenu.USERS_ITEM).users().get(0).username()
                 .should(String.format("Every repository does not contains '%s'", username), is(text(username)));
     }
 }

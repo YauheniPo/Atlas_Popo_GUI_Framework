@@ -10,7 +10,7 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.events.EventFiringWebDriver;
-import popo.atlas.framework.utils.configurations.BrowserConfiguration;
+import popo.atlas.framework.utils.configurations.BrowserProperties;
 import popo.atlas.framework.utils.listener.EventHandler;
 
 import javax.naming.NamingException;
@@ -22,7 +22,7 @@ import java.util.Arrays;
 @Log4j2
 final public class BrowserFactory {
 
-    private final static String KEY_BROWSER_HEADLESS = "browser.headless";
+    private static final BrowserProperties BROWSER_PROPERTIES = BrowserProperties.getInstance();
 
     private BrowserFactory() {
         throw new IllegalStateException("Utility class");
@@ -76,7 +76,7 @@ final public class BrowserFactory {
 
     private static RemoteWebDriver getChromeDriver() {
         ChromeOptions options = new ChromeOptions();
-        if (BrowserConfiguration.getInstance().getResourcePropertiesManager().getBooleanProperties(KEY_BROWSER_HEADLESS)) {
+        if (BROWSER_PROPERTIES.isHeadless()) {
             options.addArguments("headless");
         }
         return new ChromeDriver(options);

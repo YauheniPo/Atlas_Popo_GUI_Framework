@@ -2,12 +2,10 @@ package popo.atlas.app;
 
 import org.testng.annotations.Test;
 import popo.atlas.framework.base.BaseTest;
-import popo.atlas.framework.base.SmartWait;
 
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import static org.hamcrest.core.IsCollectionContaining.hasItem;
 import static org.hamcrest.core.StringContains.containsString;
-import static popo.atlas.framework.base.SmartWait.BROWSER_CONFIGURATION;
 import static ru.yandex.qatools.matchers.webdriver.TextMatcher.text;
 
 public class ContributorTest extends BaseTest {
@@ -23,7 +21,7 @@ public class ContributorTest extends BaseTest {
                 contributors().click();
         gitHubSite.onContributorsPage().contribPersons()
                 .waitUntil(String.format("Profile '%s' project '%s' does not have contributors", myProfile, project),
-                        hasSize(1), (int) SmartWait.BROWSER_CONFIGURATION.getTimeoutForConditionInMellis());
+                        hasSize(1), BROWSER_PROPERTIES.getDefaultConditionTimeoutMillis());
     }
 
     @Test(groups = {TestGroup.GIT_GROUP})
@@ -36,6 +34,6 @@ public class ContributorTest extends BaseTest {
                 .contributors().click();
         gitHubSite.onContributorsPage().contribPersons()
                 .waitUntil(String.format("Profile '%s' project '%s' does not have contributor '%s'", profile, project, myProfile),
-                        hasItem(text(containsString(myProfile))), (int) BROWSER_CONFIGURATION.getTimeoutForConditionInMellis());
+                        hasItem(text(containsString(myProfile))), BROWSER_PROPERTIES.getDefaultConditionTimeoutMillis());
     }
 }
