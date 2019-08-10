@@ -1,0 +1,16 @@
+steps:
+  - task: PublishBuildArtifacts@1
+    displayName: Publish Build Artifacts
+    inputs:
+      PathtoPublish: '$(System.DefaultWorkingDirectory)'
+      ArtifactName: 'PublishBuildArtifacts'
+
+  - task: PublishPipelineArtifact@0
+    inputs:
+      artifactName: 'PublishPipelineArtifact'
+      targetPath: '$(System.DefaultWorkingDirectory)'
+
+  - task: CmdLine@2
+    displayName: Print Log File logs\log.log
+    inputs:
+      script: 'more logs\log.log'
