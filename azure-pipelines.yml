@@ -12,6 +12,11 @@ jobs:
 #    vmImage: 'macOS-10.13'
 
   steps:
+  - task: SonarCloudAnalyze@1
+  - task: SonarCloudPublish@1
+    inputs:
+      pollingTimeoutSec: '300'
+
   - script: ls
     displayName: ls command
 
@@ -41,8 +46,3 @@ jobs:
 
   - script: ls
     displayName: $(vmImageVar) env
-
-  - task: CmdLine@2
-    displayName: Print Log File logs\log.log
-    inputs:
-      script: 'more logs\log.log'
