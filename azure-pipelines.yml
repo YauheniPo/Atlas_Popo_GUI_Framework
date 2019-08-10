@@ -12,11 +12,6 @@ jobs:
 #    vmImage: 'macOS-10.13'
 
   steps:
-  - task: SonarCloudAnalyze@1
-  - task: SonarCloudPublish@1
-    inputs:
-      pollingTimeoutSec: '300'
-
   - script: ls
     displayName: ls command
 
