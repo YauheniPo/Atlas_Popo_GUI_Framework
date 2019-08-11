@@ -6,15 +6,12 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Listeners;
 import popo.atlas.framework.base.driver.Browser;
-import popo.atlas.framework.utils.configurations.BrowserProperties;
 import popo.atlas.framework.utils.configurations.StageProperties;
 import popo.atlas.framework.utils.listener.CustomListener;
 
 @Log4j2
 @Listeners({CustomListener.class})
 public class BaseEntity {
-
-    protected static final BrowserProperties BROWSER_PROPERTIES = BrowserProperties.getInstance();
 
     @BeforeMethod()
     public void beforeMethod() {

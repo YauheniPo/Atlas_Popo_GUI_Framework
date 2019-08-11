@@ -5,7 +5,8 @@ import popo.atlas.app.page.MainPage;
 import popo.atlas.app.page.SearchPage;
 import popo.atlas.app.step.CommonStep;
 
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.core.IsCollectionContaining.hasItem;
+import static org.hamcrest.core.StringContains.containsString;
 import static ru.yandex.qatools.matchers.webdriver.TextMatcher.text;
 
 public class FindRepositoryTest extends CommonStep {
@@ -18,6 +19,6 @@ public class FindRepositoryTest extends CommonStep {
 
         searchPage.repositories()
                 .waitUntil(String.format("Any repository does not contains '%s'", repoTitleText),
-                        contains(text(anyOf(containsString(repoTitleText), containsString(repoTitleText.toLowerCase())))));
+                        hasItem(text(containsString(repoTitleText))));
     }
 }
