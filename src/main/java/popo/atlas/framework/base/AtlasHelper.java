@@ -9,7 +9,6 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.StaleElementReferenceException;
 import popo.atlas.framework.atlas.extention.ContainsClassExtension;
 import popo.atlas.framework.base.driver.Browser;
-import popo.atlas.framework.utils.configurations.StageProperties;
 
 import java.util.Arrays;
 
@@ -23,7 +22,7 @@ public class AtlasHelper {
         log.info("Init AtlasHelper");
     }
 
-    public static AtlasHelper getInstance() {
+    static AtlasHelper getInstance() {
         if (instance == null) {
             synchronized (AtlasHelper.class) {
                 if (instance == null) {
@@ -35,7 +34,7 @@ public class AtlasHelper {
     }
 
     private static Atlas initAtlas() {
-        return new Atlas(new WebDriverConfiguration(Browser.getDriver(), StageProperties.getInstance().getUrl()))
+        return new Atlas(new WebDriverConfiguration(Browser.getDriver()))
                 .extension(new ContainsClassExtension())
                 .context(new RetryerContext(
                         new DefaultRetryer(
@@ -51,7 +50,7 @@ public class AtlasHelper {
         return atlasThreadLocal.get();
     }
 
-    public void cleanAtlas() {
+    void cleanAtlas() {
         if (atlasThreadLocal.get() != null) {
             atlasThreadLocal.set(null);
         }
