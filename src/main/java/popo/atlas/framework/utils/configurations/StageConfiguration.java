@@ -2,6 +2,7 @@ package popo.atlas.framework.utils.configurations;
 
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
@@ -17,9 +18,8 @@ public class StageConfiguration {
     @Value("${stage}")
     private String stage;
 
+    @Bean
     public String getStageUrl() {
-        String url = RESOURCE_PROPERTIES_MANAGER.getStringProperty(String.format("stage.%s.url", stage));
-        System.getProperties().setProperty("ATLAS_WEBSITE_URL", url);
-        return url;
+        return RESOURCE_PROPERTIES_MANAGER.getStringProperty(String.format("stage.%s.url", stage));
     }
 }

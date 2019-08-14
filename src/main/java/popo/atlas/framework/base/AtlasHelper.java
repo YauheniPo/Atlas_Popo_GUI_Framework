@@ -15,18 +15,19 @@ import java.util.Arrays;
 @Log4j2
 public class AtlasHelper {
 
-    private static ThreadLocal<Atlas> atlasThreadLocal = ThreadLocal.withInitial(AtlasHelper::initAtlas);
-    private static AtlasHelper instance = new AtlasHelper();
+    private static ThreadLocal<Atlas> atlasThreadLocal = new ThreadLocal<>();
+    private static AtlasHelper instance = null;
 
-    private AtlasHelper() {
+    private AtlasHelper(String baseUrl) {
         log.info("Init AtlasHelper");
+        System.getProperties().setProperty("ATLAS_WEBSITE_URL", baseUrl);
     }
 
-    static AtlasHelper getInstance() {
+    static AtlasHelper getInstance(String baseUrl) {
         if (instance == null) {
             synchronized (AtlasHelper.class) {
                 if (instance == null) {
-                    instance = new AtlasHelper();
+                    instance = new AtlasHelper(baseUrl);
                 }
             }
         }
@@ -50,7 +51,7 @@ public class AtlasHelper {
         return atlasThreadLocal.get();
     }
 
-    void cleanAtlas() {
+    static void cleanAtlas() {
         if (atlasThreadLocal.get() != null) {
             atlasThreadLocal.set(null);
         }

@@ -24,13 +24,13 @@ public class BaseEntity extends AbstractTestNGSpringContextTests {
     @BeforeMethod()
     public void beforeMethod() {
         Browser.getInstance().openStartPage(stageConfiguration.getStageUrl());
-        AtlasHelper.getInstance();
+        AtlasHelper.getInstance(stageConfiguration.getStageUrl());
     }
 
     @AfterMethod
     public void afterMethod() {
         Browser.getInstance().exit();
-        AtlasHelper.getInstance().cleanAtlas();
+        AtlasHelper.cleanAtlas();
     }
 
     protected static EventFiringWebDriver getWebDriver() {
