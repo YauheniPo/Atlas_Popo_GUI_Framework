@@ -1,7 +1,7 @@
 package popo.atlas.framework.utils.configurations;
 
 import lombok.Getter;
-import popo.atlas.framework.base.driver.Browser;
+import popo.atlas.framework.base.driver.BrowserFactory;
 import ru.yandex.qatools.properties.PropertyLoader;
 import ru.yandex.qatools.properties.annotations.Property;
 import ru.yandex.qatools.properties.annotations.Resource;
@@ -13,7 +13,7 @@ public class BrowserProperties {
 
     @Getter
     @Property("browser")
-    private String browser = Browser.BrowserType.CHROME.getValue();
+    private String browser = BrowserFactory.BrowserType.CHROME.name();
 
     @Getter
     @Property("browser.headless")

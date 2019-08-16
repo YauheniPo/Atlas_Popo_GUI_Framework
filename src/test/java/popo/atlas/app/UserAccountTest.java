@@ -14,6 +14,7 @@ public class UserAccountTest extends BaseTest {
     @Test(groups = {TestGroup.GIT_GROUP})
     public void testUserNavBar() {
         final String overviewNavBar = UserNavBar.USER_NAV_BAR_ITEM_OVERVIEW;
+
         GitHubSite gitHubSite = onPage(GitHubSite.class);
 
         AccountPage accountPage = gitHubSite.onAccountPage(username);

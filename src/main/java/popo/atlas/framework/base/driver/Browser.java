@@ -1,7 +1,5 @@
 package popo.atlas.framework.base.driver;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
 import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
@@ -11,13 +9,14 @@ import popo.atlas.framework.base.SmartWait;
 import popo.atlas.framework.utils.configurations.BrowserProperties;
 
 import javax.naming.NamingException;
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 @Log4j2
 public final class Browser {
 
     private static final BrowserProperties BROWSER_PROPERTIES = BrowserProperties.getInstance();
-    private static final String currentBrowser = System.getProperty("browser", BROWSER_PROPERTIES.getBrowser());
+    private static final String currentBrowser = System.getProperty("browser", BROWSER_PROPERTIES.getBrowser()).toUpperCase(Locale.ENGLISH);
     private static ThreadLocal<EventFiringWebDriver> driverHolder = ThreadLocal.withInitial(Browser::getNewDriver);
     private static Browser instance = new Browser();
 
@@ -96,18 +95,6 @@ public final class Browser {
     public void back() {
         getDriver().navigate().back();
         log.info("Return to previous page");
-    }
-
-    @AllArgsConstructor()
-    public enum BrowserType {
-        FIREFOX("firefox"),
-        CHROME("chrome"),
-        EDGE("edge"),
-        IE("ie"),
-        DEFAULT("default");
-
-        @Getter
-        private final String value;
     }
 
     private static EventFiringWebDriver getNewDriver() {

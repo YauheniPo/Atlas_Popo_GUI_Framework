@@ -1,6 +1,5 @@
 package popo.atlas.framework.base.driver;
 
-import io.github.bonigarcia.wdm.ChromeDriverManager;
 import io.github.bonigarcia.wdm.DriverManagerType;
 import io.github.bonigarcia.wdm.FirefoxDriverManager;
 import lombok.extern.log4j.Log4j2;
@@ -8,13 +7,14 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.events.EventFiringWebDriver;
 import popo.atlas.framework.utils.configurations.BrowserProperties;
 import popo.atlas.framework.utils.listener.EventHandler;
 
 import javax.naming.NamingException;
-import java.util.Arrays;
+import java.util.EnumMap;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * The class-initializer-based browser string parameter.
@@ -22,7 +22,40 @@ import java.util.Arrays;
 @Log4j2
 final public class BrowserFactory {
 
+    public enum BrowserType {
+
+        CHROME {
+            @Override
+            public WebDriver getWebDriver() {
+                ChromeOptions options = new ChromeOptions();
+                if (BROWSER_PROPERTIES.isHeadless()) {
+                    options.addArguments("headless");
+                }
+                return new ChromeDriver(options);
+            }
+        },
+        FIREFOX {
+            @Override
+            public WebDriver getWebDriver() {
+                return new FirefoxDriver();
+            }
+        },
+        DEFAULT {
+            @Override
+            public WebDriver getWebDriver() {
+                return CHROME.getWebDriver();
+            }
+        };
+
+        public abstract WebDriver getWebDriver();
+    }
+
     private static final BrowserProperties BROWSER_PROPERTIES = BrowserProperties.getInstance();
+    private static final EnumMap<BrowserType, DriverManagerType> driverManagerMap = new EnumMap<BrowserType, DriverManagerType>(BrowserType.class) {{
+        put(BrowserType.CHROME, DriverManagerType.CHROME);
+        put(BrowserType.FIREFOX, DriverManagerType.FIREFOX);
+        put(BrowserType.DEFAULT, DriverManagerType.CHROME);
+    }};
 
     private BrowserFactory() {
         throw new IllegalStateException("Utility class");
@@ -33,52 +66,18 @@ final public class BrowserFactory {
      *
      * @param type BrowserOld type
      * @return RemoteWebDriver
-     */
-    public static EventFiringWebDriver setUp(final Browser.BrowserType type) {
-        return getWebDriver(type);
-    }
-
-    /**
-     * Setting up Driver
-     *
-     * @param type BrowserOld type
-     * @return RemoteWebDriver
      * @throws NamingException NamingException
      */
     public static EventFiringWebDriver setUp(final String type) throws NamingException {
-        for (Browser.BrowserType browserType : Browser.BrowserType.values()) {
-            if (browserType.getValue().equalsIgnoreCase(type)) {
-                return setUp(browserType);
-            }
+        Set<String> driverNames = driverManagerMap.keySet().stream().map(Enum::name).collect(Collectors.toSet());
+        if (driverNames.contains(type)) {
+            BrowserType browserType = BrowserType.valueOf(type);
+            FirefoxDriverManager.getInstance(driverManagerMap.get(browserType)).setup();
+            EventFiringWebDriver eventDriver = new EventFiringWebDriver(browserType.getWebDriver());
+            EventHandler handler = new EventHandler();
+            eventDriver.register(handler);
+            return eventDriver;
         }
-        throw new NamingException("Wrong Browser Name: " + Arrays.toString(Browser.BrowserType.values()));
-    }
-
-    private static EventFiringWebDriver getWebDriver(final Browser.BrowserType type) {
-        log.info(String.format("WebDriver %s initialization", type));
-        WebDriver webDriver;
-        switch (type) {
-            case FIREFOX:
-                FirefoxDriverManager.getInstance(DriverManagerType.FIREFOX).setup();
-                webDriver = new FirefoxDriver();
-                break;
-            default:
-                log.warn("Default WebDriver");
-            case CHROME:
-                ChromeDriverManager.getInstance(DriverManagerType.CHROME).setup();
-                webDriver = getChromeDriver();
-        }
-        EventFiringWebDriver eventDriver = new EventFiringWebDriver(webDriver);
-        EventHandler handler = new EventHandler();
-        eventDriver.register(handler);
-        return eventDriver;
-    }
-
-    private static RemoteWebDriver getChromeDriver() {
-        ChromeOptions options = new ChromeOptions();
-        if (BROWSER_PROPERTIES.isHeadless()) {
-            options.addArguments("headless");
-        }
-        return new ChromeDriver(options);
+        throw new NamingException(String.format("Wrong Browser Name: %s", type));
     }
 }
