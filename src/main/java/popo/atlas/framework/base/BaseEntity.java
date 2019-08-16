@@ -21,7 +21,7 @@ public class BaseEntity extends AbstractTestNGSpringContextTests {
     @Autowired
     private StageConfiguration stageConfiguration;
 
-    @BeforeMethod()
+    @BeforeMethod
     public void beforeMethod() {
         Browser.getInstance().openStartPage(stageConfiguration.getStageUrl());
         AtlasHelper.getInstance(stageConfiguration.getStageUrl());
