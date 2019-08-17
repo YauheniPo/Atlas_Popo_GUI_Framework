@@ -8,8 +8,10 @@ import org.springframework.test.context.support.AnnotationConfigContextLoader;
 import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Listeners;
 import popo.atlas.framework.base.driver.Browser;
+import popo.atlas.framework.utils.ResourcePropertiesManager;
 import popo.atlas.framework.utils.configurations.StageConfiguration;
 import popo.atlas.framework.utils.listener.CustomListener;
 
@@ -21,10 +23,15 @@ public class BaseEntity extends AbstractTestNGSpringContextTests {
     @Autowired
     private StageConfiguration stageConfiguration;
 
+    @BeforeSuite
+    public void beforeSuite() {
+        System.getProperties().setProperty("test.env", new ResourcePropertiesManager("stage.properties").getStringProperty("stage"));
+    }
+
     @BeforeMethod
     public void beforeMethod() {
-        Browser.getInstance().openStartPage(stageConfiguration.getStageUrl());
-        AtlasHelper.getInstance(stageConfiguration.getStageUrl());
+        Browser.getInstance().openStartPage(stageConfiguration.getStage());
+        AtlasHelper.getInstance(stageConfiguration.getStage());
     }
 
     @AfterMethod
