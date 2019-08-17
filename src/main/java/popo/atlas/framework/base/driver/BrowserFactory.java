@@ -1,7 +1,7 @@
 package popo.atlas.framework.base.driver;
 
 import io.github.bonigarcia.wdm.DriverManagerType;
-import io.github.bonigarcia.wdm.FirefoxDriverManager;
+import io.github.bonigarcia.wdm.WebDriverManager;
 import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -72,7 +72,7 @@ final public class BrowserFactory {
         Set<String> driverNames = driverManagerMap.keySet().stream().map(Enum::name).collect(Collectors.toSet());
         if (driverNames.contains(type)) {
             BrowserType browserType = BrowserType.valueOf(type);
-            FirefoxDriverManager.getInstance(driverManagerMap.get(browserType)).setup();
+            WebDriverManager.getInstance(driverManagerMap.get(browserType)).setup();
             EventFiringWebDriver eventDriver = new EventFiringWebDriver(browserType.getWebDriver());
             EventHandler handler = new EventHandler();
             eventDriver.register(handler);
