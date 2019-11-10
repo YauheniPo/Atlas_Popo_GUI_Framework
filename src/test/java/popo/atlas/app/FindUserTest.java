@@ -12,7 +12,7 @@ import static ru.yandex.qatools.matchers.webdriver.TextMatcher.text;
 
 public class FindUserTest extends CommonStep {
 
-    private final String username = "YauheniPo";
+    private final String username = stageProperties.getUser();
 
     @Test(groups = {TestGroup.GIT_GROUP})
     public void testFindUserByName() {

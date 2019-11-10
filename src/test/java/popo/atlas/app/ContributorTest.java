@@ -9,7 +9,7 @@ import static ru.yandex.qatools.matchers.webdriver.TextMatcher.text;
 
 public class ContributorTest extends BaseTest {
 
-    private final String myProfile = "YauheniPo";
+    private final String myProfile = stageProperties.getUser();
 
     @Test(groups = {TestGroup.GIT_GROUP})
     public void testMyProjectContributor() {

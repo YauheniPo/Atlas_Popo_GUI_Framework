@@ -2,36 +2,28 @@ package popo.atlas.framework.base;
 
 import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.support.events.EventFiringWebDriver;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.support.AnnotationConfigContextLoader;
-import org.springframework.test.context.testng.AbstractTestNGSpringContextTests;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Listeners;
 import popo.atlas.framework.base.driver.Browser;
 import popo.atlas.framework.utils.ResourcePropertiesManager;
-import popo.atlas.framework.utils.configurations.StageConfiguration;
+import popo.atlas.framework.utils.configurations.StageProperties;
 import popo.atlas.framework.utils.listener.CustomListener;
 
 @Log4j2
 @Listeners({CustomListener.class})
-@ContextConfiguration(classes = StageConfiguration.class, loader = AnnotationConfigContextLoader.class)
-public class BaseEntity extends AbstractTestNGSpringContextTests {
+public class BaseEntity {
 
-    @Autowired
-    private StageConfiguration stageConfiguration;
-
-    @BeforeSuite
-    public void beforeSuite() {
+    static {
         System.getProperties().setProperty("test.env", new ResourcePropertiesManager("stage.properties").getStringProperty("stage"));
     }
 
+    protected final StageProperties stageProperties = StageProperties.getInstance();
+
     @BeforeMethod
     public void beforeMethod() {
-        Browser.getInstance().openStartPage(stageConfiguration.getStage());
-        AtlasHelper.getInstance(stageConfiguration.getStage());
+        Browser.getInstance().openStartPage(stageProperties.getUrl());
+        AtlasHelper.getInstance(stageProperties.getUrl());
     }
 
     @AfterMethod

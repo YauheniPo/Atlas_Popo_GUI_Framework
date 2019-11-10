@@ -13,7 +13,7 @@ public class FindRepositoryTest extends CommonStep {
 
     @Test(groups = {TestGroup.GIT_GROUP})
     public void testFindRepositoryByName() {
-        final String repoTitleText = "YauheniPo";
+        final String repoTitleText = stageProperties.getUser();
 
         SearchPage searchPage = search(MainPage.class, repoTitleText);
 
