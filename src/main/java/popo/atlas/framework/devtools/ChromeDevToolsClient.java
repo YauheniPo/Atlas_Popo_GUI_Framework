@@ -19,7 +19,7 @@ import java.net.URISyntaxException;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-
+//only with docker container (selenoid image)
 @Log4j2
 public class ChromeDevToolsClient {
 
