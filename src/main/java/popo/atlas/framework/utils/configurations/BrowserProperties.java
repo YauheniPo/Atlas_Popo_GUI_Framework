@@ -16,8 +16,20 @@ public class BrowserProperties {
     private String browser = BrowserFactory.BrowserType.CHROME.name();
 
     @Getter
+    @Property("gridServerUrl")
+    private String gridServerUrl = "localhost:4444";
+
+    @Getter
+    @Property("gridHub")
+    private String gridHub = String.format("http://%s/wd/hub", gridServerUrl);
+
+    @Getter
     @Property("browser.headless")
     private boolean isHeadless = false;
+
+    @Getter
+    @Property("browser.isRemoteDriver")
+    private boolean isRemoteDriver = false;
 
     @Getter
     @Property("browser.defaultConditionTimeout")

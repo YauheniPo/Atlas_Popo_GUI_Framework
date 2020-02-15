@@ -2,6 +2,8 @@ package popo.atlas.app;
 
 import org.testng.annotations.Test;
 import popo.atlas.framework.base.BaseTest;
+import popo.atlas.framework.devtools.ChromeDevToolsClient;
+import popo.atlas.framework.utils.configurations.BrowserProperties;
 
 import static org.hamcrest.core.IsCollectionContaining.hasItem;
 import static org.hamcrest.core.StringContains.containsString;
@@ -16,7 +18,7 @@ public class ContributorTest extends BaseTest {
         final String project = "RobotFramework_GUI_Tests";
 
         GitHubSite gitHubSite = onPage(GitHubSite.class);
-
+        ChromeDevToolsClient devToolsClient = new ChromeDevToolsClient(BrowserProperties.getInstance().getGridServerUrl());
         gitHubSite.onProjectPage(myProfile, project).contributors().click();
         gitHubSite.onContributorsPage().contribPersons()
                 .waitUntil(String.format("Profile '%s' project '%s' does not have contributors", myProfile, project),

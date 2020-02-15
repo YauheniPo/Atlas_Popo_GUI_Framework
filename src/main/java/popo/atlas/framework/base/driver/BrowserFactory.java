@@ -7,11 +7,15 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.events.EventFiringWebDriver;
 import popo.atlas.framework.utils.configurations.BrowserProperties;
 import popo.atlas.framework.utils.listener.EventHandler;
 
 import javax.naming.NamingException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.EnumMap;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -30,6 +34,16 @@ final public class BrowserFactory {
                 ChromeOptions options = new ChromeOptions();
                 if (BROWSER_PROPERTIES.isHeadless()) {
                     options.addArguments("headless");
+                }
+                if (BROWSER_PROPERTIES.isRemoteDriver()) {
+                    try {
+                        DesiredCapabilities capabilities = new DesiredCapabilities();
+                        capabilities.setCapability(ChromeOptions.CAPABILITY, options);
+                        return new RemoteWebDriver(new URL(BROWSER_PROPERTIES.getGridHub()), capabilities);
+                    } catch (MalformedURLException e) {
+                        log.error(e);
+                        e.printStackTrace();
+                    }
                 }
                 return new ChromeDriver(options);
             }
